@@ -31,6 +31,7 @@ const Login = () => {
 
         console.log('User data saved to session storage');
         // You can navigate to another page or update the UI as needed
+        window.location.href = '/';
       }
     } catch (error) {
       console.error('Login error:', error);
