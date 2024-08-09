@@ -35,7 +35,7 @@ const ReclamationForm = () => {
     const selectedParents = [];
     selectedStudents.forEach(studentId => {
       const student = users.find(user => user._id === studentId);
-      if (student && student.parents) {
+      if (student?.parents) {
         selectedParents.push(...student.parents);
       }
     });

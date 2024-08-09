@@ -1,4 +1,3 @@
-// src/components/AnnanceForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -11,6 +10,8 @@ const AnnanceForm = () => {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [sendEmail, setSendEmail] = useState(false); // State for the send email checkbox
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -38,7 +39,10 @@ const AnnanceForm = () => {
       }
     });
   };
-
+  
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
   // Filter users who have at least one of the selected roles or return all users if no roles are selected
   const filteredUsers = selectedRoles.length > 0 
     ? users.filter((user) =>
@@ -48,16 +52,33 @@ const AnnanceForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newAnnance = {
-      etat,
-      sujet,
-      information,
-      userAudience,
-      roleAudience,
-    };
+    
+    // Create FormData object to handle file and form data
+    const formData = new FormData();
+    formData.append('etat', etat);
+    formData.append('sujet', sujet);
+    formData.append('information', information);
+    if (userAudience.length > 0) {
+      formData.append('userAudience', userAudience);
+    }
+    if (roleAudience.length > 0) {
+      formData.append('roleAudience', roleAudience);
+    }
+
+    if (selectedFile) {
+      formData.append('image', selectedFile);
+    }
 
     try {
-      const response = await axios.post('http://localhost:8080/annances', newAnnance);
+      // Send to the appropriate URL based on the sendEmail checkbox state
+      const url = sendEmail ? 'http://localhost:8080/annances/mail' : 'http://localhost:8080/annances';
+      
+      const response = await axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
       setMessage('Annance created successfully!');
       console.log(response.data);
     } catch (error) {
@@ -69,7 +90,7 @@ const AnnanceForm = () => {
   return (
     <div>
       <h2>Create Annance</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
           <label>Etat:</label>
           <input
@@ -141,6 +162,19 @@ const AnnanceForm = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <label>Upload Image:</label>
+          <input type="file" name="image" onChange={handleFileChange} />
+        </div>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={sendEmail}
+              onChange={(e) => setSendEmail(e.target.checked)}/>
+            Send Email
+          </label>
         </div>
         <button type="submit">Create Annance</button>
       </form>
