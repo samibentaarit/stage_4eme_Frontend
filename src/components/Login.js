@@ -1,3 +1,4 @@
+// src/Login.js
 import React, { useState } from 'react';
 import '../style/Login.css';
 import axios from 'axios';
@@ -19,21 +20,22 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        const { id, username, email, roles, deviceId } = response.data;
+        const { id, username, email, roles, accessToken, refreshToken, deviceId } = response.data;
 
-        // Save other non-sensitive user data in session storage
+        // Save data in session storage
         sessionStorage.setItem('id', id);
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('email', email);
         sessionStorage.setItem('roles', JSON.stringify(roles));
-        sessionStorage.setItem('deviceId', deviceId);
 
         console.log('User data saved to session storage');
+        // You can navigate to another page or update the UI as needed
         window.location.href = '/';
       }
     } catch (error) {
       console.error('Login error:', error);
       setError('Login failed. Please check your credentials.');
+      // Handle error cases, like invalid credentials
     }
   };
 

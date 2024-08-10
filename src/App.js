@@ -11,7 +11,7 @@ import AnnanceForm from './components/AnnanceForm';
 import ReclamationForm from './components/ReclamationForm';
 
 function App() {
-  const isLoggedIn = sessionStorage.getItem('accessToken') !== null;
+  const isLoggedIn = document.cookie.includes('accessToken') !== null;
 
   return (
     <Router>
