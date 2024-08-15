@@ -20,13 +20,13 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        const { id, username, email, roles, accessToken, refreshToken, deviceId } = response.data;
+        const { id, username, email, roles } = response.data;
 
         // Save data in session storage
-        sessionStorage.setItem('id', id);
-        sessionStorage.setItem('username', username);
-        sessionStorage.setItem('email', email);
-        sessionStorage.setItem('roles', JSON.stringify(roles));
+        localStorage.setItem('id', id);
+        localStorage.setItem('username', username);
+        localStorage.setItem('email', email);
+        localStorage.setItem('roles', JSON.stringify(roles));
 
         console.log('User data saved to session storage');
         // You can navigate to another page or update the UI as needed

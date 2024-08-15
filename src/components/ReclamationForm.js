@@ -44,11 +44,14 @@ const ReclamationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const redacteurId = sessionStorage.getItem('id');
+
     const newReclamation = {
       sujet,
       information,
       etat,
-      redacteur,
+      redacteur: redacteurId,
       etudiantConserne,
       parentConserne: includeParents ? parentConserne : [],
     };
@@ -96,15 +99,7 @@ const ReclamationForm = () => {
             required
           />
         </div>
-        <div>
-          <label>Redacteur:</label>
-          <input
-            type="text"
-            value={redacteur}
-            onChange={(e) => setRedacteur(e.target.value)}
-            required
-          />
-        </div>
+
         <div>
           <label>Etudiant Conserne:</label>
           <select

@@ -53,11 +53,21 @@ const AnnanceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Retrieve redacteur ID from session storage
+    const redacteurId = sessionStorage.getItem('id');
+    if (!redacteurId) {
+      console.error('Redacteur ID not found in session storage');
+      return;
+    }
+
     // Create FormData object to handle file and form data
     const formData = new FormData();
     formData.append('etat', etat);
     formData.append('sujet', sujet);
     formData.append('information', information);
+    if (redacteurId) {
+      formData.append('redacteur', redacteurId);
+    }
     if (userAudience.length > 0) {
       formData.append('userAudience', userAudience);
     }
