@@ -54,7 +54,7 @@ const AnnanceForm = () => {
     e.preventDefault();
     
     // Retrieve redacteur ID from session storage
-    const redacteurId = sessionStorage.getItem('id');
+    const redacteurId = localStorage.getItem('id');
     if (!redacteurId) {
       console.error('Redacteur ID not found in session storage');
       return;

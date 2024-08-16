@@ -6,7 +6,6 @@ const ReclamationForm = () => {
   const [sujet, setSujet] = useState('');
   const [information, setInformation] = useState('');
   const [etat, setEtat] = useState('');
-  const [redacteur, setRedacteur] = useState('');
   const [etudiantConserne, setEtudiantConserne] = useState([]);
   const [parentConserne, setParentConserne] = useState([]);
   const [users, setUsers] = useState([]);
@@ -45,7 +44,7 @@ const ReclamationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const redacteurId = sessionStorage.getItem('id');
+    const redacteurId = localStorage.getItem('id');
 
     const newReclamation = {
       sujet,
