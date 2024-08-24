@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AnnanceList from './components/AnnanceList';
 import AnnanceForm from './components/AnnanceForm';
 import ReclamationForm from './components/ReclamationForm';
+import ReclamationList from './components/ReclamationList';
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') !== null;
@@ -24,6 +25,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/reclamations" element={<ReclamationList />} />
         <Route path="/annances" element={<AnnanceList />} />
         <Route path="/create-annance" element={<AnnanceForm />} />
         <Route path="/create-reclamation" element={<ReclamationForm />} />
