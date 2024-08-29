@@ -10,6 +10,12 @@ import AnnanceList from './components/AnnanceList';
 import AnnanceForm from './components/AnnanceForm';
 import ReclamationForm from './components/ReclamationForm';
 import ReclamationList from './components/ReclamationList';
+import ClassList from './components/ClassList';
+import ClassForm from './components/ClassForm';
+import AssignStudentsToClass from './components/AssignStudentsToClass';
+import StudentList from './components/StudentList';
+import GradeForm from './components/GradeForm';
+import GradeList from './components/GradeList';
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') !== null;
@@ -29,8 +35,15 @@ function App() {
         <Route path="/annances" element={<AnnanceList />} />
         <Route path="/create-annance" element={<AnnanceForm />} />
         <Route path="/create-reclamation" element={<ReclamationForm />} />
-
+        <Route path="/classes" element={<ClassList />} />
+        <Route path="/classes/create" element={<ClassForm />} />
+        <Route path="/classes/:id" element={<ClassForm />} />
+        <Route path="/classes/:classId/students" element={<AssignStudentsToClass />} />
+        <Route path="/students" element={<StudentList />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/grades" element={<GradeList />} />
+        <Route path="/grades/create" element={<GradeForm />} />
+        <Route path="/grades/:id/edit" element={<GradeForm />} />
       </Routes>
     </Router>
   );
