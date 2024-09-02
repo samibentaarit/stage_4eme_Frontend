@@ -36,7 +36,7 @@ const ClassList = () => {
               {classes.map((classObj) => (
                 <li key={classObj._id} className="flex justify-between items-center border p-4 rounded-lg shadow-sm">
                   <span>
-                    {classObj.className} - {classObj.grade.gradeName}
+                  {classObj.grade.gradeName} - {classObj.className}
                   </span>
                   <div className="space-x-2">
                     <button

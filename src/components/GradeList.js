@@ -48,7 +48,7 @@ const ClassList = () => {
                   className="flex justify-between items-center bg-white border border-gray-200 p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200"
                 >
                   <span className="text-gray-700 font-medium">
-                    <span className="font-semibold">Class:</span> {grade.className} - <span className="font-semibold">Grade:</span> {grade.grade?.gradeName || 'No Grade Assigned'}
+                    <span className="font-semibold">Grade:</span> {grade?.gradeName || 'No Grade Assigned'}
                   </span>
                   <div className="space-x-3">
                     <Link

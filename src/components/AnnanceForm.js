@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AnnanceForm = () => {
-  const [etat, setEtat] = useState('');
   const [sujet, setSujet] = useState('');
   const [information, setInformation] = useState('');
   const [userAudience, setUserAudience] = useState([]);
@@ -11,11 +10,12 @@ const AnnanceForm = () => {
   const [roles, setRoles] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [sendEmail, setSendEmail] = useState(false); // State for the send email checkbox
+  const [sendEmail, setSendEmail] = useState(false);
   const [message, setMessage] = useState('');
+  const [userFilter, setUserFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
 
   useEffect(() => {
-    // Fetch users and roles when the component mounts
     const fetchUsersAndRoles = async () => {
       try {
         const usersResponse = await axios.get('http://localhost:8080/user/users');
@@ -31,64 +31,64 @@ const AnnanceForm = () => {
   }, []);
 
   const handleRoleChange = (roleId) => {
-    setSelectedRoles((prevSelectedRoles) => {
-      if (prevSelectedRoles.includes(roleId)) {
-        return prevSelectedRoles.filter((id) => id !== roleId);
-      } else {
-        return [...prevSelectedRoles, roleId];
-      }
-    });
+    setSelectedRoles((prevSelectedRoles) =>
+      prevSelectedRoles.includes(roleId)
+        ? prevSelectedRoles.filter((id) => id !== roleId)
+        : [...prevSelectedRoles, roleId]
+    );
   };
-  
+
+  const handleUserCheckboxChange = (userId) => {
+    setUserAudience((prevSelected) =>
+      prevSelected.includes(userId) ? prevSelected.filter((id) => id !== userId) : [...prevSelected, userId]
+    );
+  };
+
+  const handleRoleCheckboxChange = (roleId) => {
+    setRoleAudience((prevSelected) =>
+      prevSelected.includes(roleId) ? prevSelected.filter((id) => id !== roleId) : [...prevSelected, roleId]
+    );
+  };
+
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
-  // Filter users who have at least one of the selected roles or return all users if no roles are selected
-  const filteredUsers = selectedRoles.length > 0 
-    ? users.filter((user) =>
-        selectedRoles.some((roleId) => user.roles.some((role) => role._id === roleId))
-      )
-    : users;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Retrieve redacteur ID from session storage
+  
     const redacteurId = localStorage.getItem('id');
     if (!redacteurId) {
       console.error('Redacteur ID not found in session storage');
       return;
     }
-
-    // Create FormData object to handle file and form data
+  
     const formData = new FormData();
-    formData.append('etat', etat);
+    formData.append('etat', 'en cours' ); // Default to 'en cours' if not set by user
     formData.append('sujet', sujet);
     formData.append('information', information);
-    if (redacteurId) {
-      formData.append('redacteur', redacteurId);
-    }
-    if (userAudience.length > 0) {
-      formData.append('userAudience', userAudience);
-    }
-    if (roleAudience.length > 0) {
-      formData.append('roleAudience', roleAudience);
-    }
-
+    formData.append('redacteur', redacteurId);
+  
+    // Append each userAudience and roleAudience item separately
+    userAudience.forEach((userId) => {
+      formData.append('userAudience[]', userId);
+    });
+    roleAudience.forEach((roleId) => {
+      formData.append('roleAudience[]', roleId);
+    });
+  
     if (selectedFile) {
       formData.append('image', selectedFile);
     }
-
+  
     try {
-      // Send to the appropriate URL based on the sendEmail checkbox state
       const url = sendEmail ? 'http://localhost:8080/annances/mail' : 'http://localhost:8080/annances';
-      
       const response = await axios.post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      
+  
       setMessage('Annance created successfully!');
       console.log(response.data);
     } catch (error) {
@@ -97,98 +97,120 @@ const AnnanceForm = () => {
     }
   };
 
+  // Filtered users based on search input
+  const filteredUsers = users.filter((user) =>
+    user.username.toLowerCase().includes(userFilter.toLowerCase()) ||
+    user.email.toLowerCase().includes(userFilter.toLowerCase())
+  );
+
+  // Filtered roles based on search input
+  const filteredRoles = roles.filter((role) =>
+    role.name.toLowerCase().includes(roleFilter.toLowerCase())
+  );
+
   return (
-    <div>
-      <h2>Create Annance</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label>Etat:</label>
-          <input
-            type="text"
-            value={etat}
-            onChange={(e) => setEtat(e.target.value)}
-            required
-          />
+    <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Annance</h2>
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
+        <div className="flex space-x-4">
+          <div className="w-full">
+            <label className="block text-gray-700 font-medium mb-2">Sujet:</label>
+            <input
+              type="text"
+              value={sujet}
+              onChange={(e) => setSujet(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         </div>
         <div>
-          <label>Sujet:</label>
-          <input
-            type="text"
-            value={sujet}
-            onChange={(e) => setSujet(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Information:</label>
+          <label className="block text-gray-700 font-medium mb-2">Information:</label>
           <textarea
             value={information}
             onChange={(e) => setInformation(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div>
-          <label>Filter users by Role:</label>
-          {roles.map((role) => (
-            <div key={role._id}>
-              <input
-                type="checkbox"
-                id={role._id}
-                checked={selectedRoles.includes(role._id)}
-                onChange={() => handleRoleChange(role._id)}
-              />
-              <label htmlFor={role._id}>{role.name}</label>
-            </div>
-          ))}
-        </div>
-        <div>
-          <label>User Audience:</label>
-          <select
-            multiple
-            value={userAudience}
-            onChange={(e) =>
-              setUserAudience([...e.target.selectedOptions].map((option) => option.value))
-            }
-          >
-            {filteredUsers.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.username} ({user.email})
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Role Audience:</label>
-          <select
-            multiple
-            value={roleAudience}
-            onChange={(e) =>
-              setRoleAudience([...e.target.selectedOptions].map((option) => option.value))
-            }
-          >
-            {roles.map((role) => (
-              <option key={role._id} value={role._id}>
-                {role.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Upload Image:</label>
-          <input type="file" name="image" onChange={handleFileChange} />
-        </div>
-        <div>
-          <label>
+
+        <div className="flex space-x-4">
+          <div className="w-full">
+            <label className="block text-gray-700 font-medium mb-2">User Audience:</label>
             <input
-              type="checkbox"
-              checked={sendEmail}
-              onChange={(e) => setSendEmail(e.target.checked)}/>
-            Send Email
-          </label>
+              type="text"
+              placeholder="Search users..."
+              value={userFilter}
+              onChange={(e) => setUserFilter(e.target.value)}
+              className="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div className="max-h-32 overflow-y-auto border p-2 rounded-lg">
+              {filteredUsers.map((user) => (
+                <div key={user._id} className="flex items-center mb-2">
+                  <label className="text-gray-600">{user.username}({user.email})</label><input
+                    type="checkbox"
+                    checked={userAudience.includes(user._id)}
+                    onChange={() => handleUserCheckboxChange(user._id)}
+                    className="mr-2"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <button type="submit">Create Annance</button>
+        <div className="flex space-x-4">
+          <div className="w-full">
+            <label className="block text-gray-700 font-medium mb-2">Role Audience:</label>
+            <input
+              type="text"
+              placeholder="Search roles..."
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
+              className="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div className="max-h-32 overflow-y-auto border p-2 rounded-lg">
+              {filteredRoles.map((role) => (
+                <div key={role._id} className="flex items-center mb-2">
+                  
+                  <label className="text-gray-600">{role.name}</label>
+                  <input
+                    type="checkbox"
+                    checked={roleAudience.includes(role._id)}
+                    onChange={() => handleRoleCheckboxChange(role._id)}
+                    className="mr-2"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">Upload Image:</label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            className="block w-full text-sm text-gray-500 border rounded-lg cursor-pointer focus:outline-none"
+          />
+        </div>
+        <div className="flex items-center">
+          
+          <label className="text-gray-700">Send Email</label>
+          <input
+            type="checkbox"
+            checked={sendEmail}
+            onChange={(e) => setSendEmail(e.target.checked)}
+            className="mr-2"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+        >
+          Create Annance
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <div className="mt-4 p-4 text-center text-white bg-green-500 rounded-lg">{message}</div>}
     </div>
   );
 };
