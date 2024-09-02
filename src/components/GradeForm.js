@@ -1,64 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const GradeForm = () => {
-    const [gradeName, setGradeName] = useState('');
-    const navigate = useNavigate();
-    const { id } = useParams();  // For editing
+const ClassList = () => {
+    const [classes, setClasses] = useState([]);
 
     useEffect(() => {
-        if (id) {
-            const fetchGrade = async () => {
-                try {
-                    const response = await axios.get(`http://localhost:8080/grades/${id}`);
-                    setGradeName(response.data.name);
-                } catch (error) {
-                    console.error('Error fetching grade:', error);
-                }
-            };
-
-            fetchGrade();
-        }
-    }, [id]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const gradeData = {
-            gradeName: gradeName
+        const fetchClasses = async () => {
+            const response = await axios.get('http://localhost:8080/classes');
+            setClasses(response.data);
         };
 
-        try {
-            if (id) {
-                await axios.put(`http://localhost:8080/grades/${id}`, gradeData);
-            } else {
-                await axios.post('http://localhost:8080/grades', gradeData);
-            }
+        fetchClasses();
+    }, []);
 
-            navigate('/grades');
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/classes/${id}`, {
+                withCredentials: true, 
+              });
+            setClasses(classes.filter((classObj) => classObj._id !== id));
         } catch (error) {
-            console.error('Error saving grade:', error);
+            console.error('Error deleting class:', error);
         }
     };
 
     return (
         <div>
-            <h1>{id ? 'Edit Grade' : 'Create New Grade'}</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Grade Name</label>
-                    <input
-                        type="text"
-                        value={gradeName}
-                        onChange={(e) => setGradeName(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">{id ? 'Update Grade' : 'Create Grade'}</button>
-            </form>
+            <h1>Class List</h1>
+            <Link to="/classes/create">Create New Class</Link>
+            <ul>
+                {classes.map((classObj) => (
+                    <li key={classObj._id}>
+                        {classObj.className} - : {classObj.grade.gradeName}
+                        <button onClick={() => handleDelete(classObj._id)}>Delete</button>
+                        <Link to={`/classes/${classObj._id}`}>Edit</Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
 
-export default GradeForm;
+export default ClassList;

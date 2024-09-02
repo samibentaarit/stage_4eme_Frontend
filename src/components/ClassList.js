@@ -17,8 +17,8 @@ const ClassList = () => {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:8080/classes/${id}`, {
-                withCredentials: true, 
-              });
+                withCredentials: true,
+            });
             setClasses(classes.filter((classObj) => classObj._id !== id));
         } catch (error) {
             console.error('Error deleting class:', error);
@@ -32,9 +32,10 @@ const ClassList = () => {
             <ul>
                 {classes.map((classObj) => (
                     <li key={classObj._id}>
-                        {classObj.className} - Grade: {classObj.grade.name}
+                        {classObj.className} - {classObj.grade.gradeName}
                         <button onClick={() => handleDelete(classObj._id)}>Delete</button>
                         <Link to={`/classes/${classObj._id}`}>Edit</Link>
+                        <Link to={`/classes/${classObj._id}/students`}>Assign Students</Link>
                     </li>
                 ))}
             </ul>

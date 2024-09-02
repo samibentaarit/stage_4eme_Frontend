@@ -10,7 +10,7 @@ const AssignStudentsToClass = () => {
 
     useEffect(() => {
         const fetchStudents = async () => {
-            const response = await axios.get('http://localhost:8080/students', {
+            const response = await axios.get('http://localhost:8080/user/students', {
                 withCredentials: true, 
               });
             setStudents(response.data);
@@ -26,7 +26,7 @@ const AssignStudentsToClass = () => {
                 classId,
                 studentIds: selectedStudents
             });
-            navigate(`/classes/${classId}`);  // Updated here
+            navigate(`/classes`);  
         } catch (error) {
             console.error('Error assigning students:', error);
         }

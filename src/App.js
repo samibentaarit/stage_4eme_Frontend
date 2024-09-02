@@ -16,6 +16,8 @@ import AssignStudentsToClass from './components/AssignStudentsToClass';
 import StudentList from './components/StudentList';
 import GradeForm from './components/GradeForm';
 import GradeList from './components/GradeList';
+import StudentEdit from './components/StudentEdit';
+import './index.css'; // Import Tailwind CSS here
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') !== null;
@@ -40,6 +42,7 @@ function App() {
         <Route path="/classes/:id" element={<ClassForm />} />
         <Route path="/classes/:classId/students" element={<AssignStudentsToClass />} />
         <Route path="/students" element={<StudentList />} />
+        <Route path="/students/:id/edit" element={<StudentEdit />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/grades" element={<GradeList />} />
         <Route path="/grades/create" element={<GradeForm />} />
