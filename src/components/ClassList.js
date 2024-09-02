@@ -26,21 +26,40 @@ const ClassList = () => {
     };
 
     return (
-        <div>
-            <h1>Class List</h1>
-            <Link to="/classes/create">Create New Class</Link>
-            <ul>
-                {classes.map((classObj) => (
-                    <li key={classObj._id}>
-                        {classObj.className} - {classObj.grade.gradeName}
-                        <button onClick={() => handleDelete(classObj._id)}>Delete</button>
-                        <Link to={`/classes/${classObj._id}`}>Edit</Link>
-                        <Link to={`/classes/${classObj._id}/students`}>Assign Students</Link>
-                    </li>
-                ))}
+        <div className="p-6 bg-white rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold mb-4">Class List</h1>
+          <Link to="/classes/create" className="text-blue-500 hover:underline mb-4 block">
+            Create New Class
+          </Link>
+          {classes.length > 0 ? (
+            <ul className="space-y-4">
+              {classes.map((classObj) => (
+                <li key={classObj._id} className="flex justify-between items-center border p-4 rounded-lg shadow-sm">
+                  <span>
+                    {classObj.className} - {classObj.grade.gradeName}
+                  </span>
+                  <div className="space-x-2">
+                    <button
+                      onClick={() => handleDelete(classObj._id)}
+                      className="text-red-500 hover:text-red-700 font-semibold"
+                    >
+                      Delete
+                    </button>
+                    <Link to={`/classes/${classObj._id}`} className="text-blue-500 hover:underline">
+                      Edit
+                    </Link>
+                    <Link to={`/classes/${classObj._id}/students`} className="text-blue-500 hover:underline">
+                      Assign Students
+                    </Link>
+                  </div>
+                </li>
+              ))}
             </ul>
+          ) : (
+            <p className="text-gray-600">No classes found.</p>
+          )}
         </div>
-    );
-};
+      );
+    };
 
 export default ClassList;

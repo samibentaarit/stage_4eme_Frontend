@@ -21,55 +21,44 @@ const StudentList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Student List</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
-        {students.map((student) => (
-          <li key={student._id}>
-            <p>
-              <strong>Username:</strong> {student.username}
-            </p>
-            <p>
-              <strong>Email:</strong> {student.email}
-            </p>
-
-            {/* Display Class */}
-            {student.class ? (
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-4">Student List</h1>
+      {error && <p className="text-red-500">{error}</p>}
+      {students.length > 0 ? (
+        <ul className="space-y-4">
+          {students.map((student) => (
+            <li key={student._id} className="border p-4 rounded-lg shadow-sm">
               <p>
-                <strong>Class:</strong> {student.class.className || 'Class Name Not Available'}
+                <strong>Username:</strong> {student.username}
               </p>
-            ) : (
               <p>
-                <strong>Class:</strong> Not Assigned
+                <strong>Email:</strong> {student.email}
               </p>
-            )}
-
-            {/* Display Parents */}
-            {student.parents && student.parents.length > 0 ? (
+              <p>
+                <strong>Class:</strong> {student.class ? student.class.className || 'Class Name Not Available' : 'Not Assigned'}
+              </p>
               <div>
                 <p>
-                  <strong>Parents:</strong>
+                  <strong>Parents:</strong> {student.parents && student.parents.length > 0 ? '' : 'No Parents Listed'}
                 </p>
                 <ul>
-                  {student.parents.map((parent) => (
-                    <li key={parent._id}>
-                      {parent.username} - {parent.email}
-                    </li>
-                  ))}
+                  {student.parents &&
+                    student.parents.map((parent) => (
+                      <li key={parent._id} className="ml-4">
+                        {parent.username} - {parent.email}
+                      </li>
+                    ))}
                 </ul>
               </div>
-            ) : (
-              <p>
-                <strong>Parents:</strong> No Parents Listed
-              </p>
-            )}
-
-            {/* Edit Link */}
-            <Link to={`/students/${student._id}/edit`}>Edit</Link>
-          </li>
-        ))}
-      </ul>
+              <Link to={`/students/${student._id}/edit`} className="text-blue-500 hover:underline">
+                Edit
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-600">No students found.</p>
+      )}
     </div>
   );
 };

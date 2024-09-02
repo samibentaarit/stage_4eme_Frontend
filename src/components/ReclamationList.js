@@ -31,40 +31,48 @@ const ReclamationList = () => {
   };
   
   return (
-    <div>
-      <h2>All Reclamations</h2>
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4">All Reclamations</h2>
       {reclamations.length > 0 ? (
-        <table>
-          <thead>
+        <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <thead className="bg-gray-100">
             <tr>
-              <th>Etat</th>
-              <th>Sujet</th>
-              <th>Information</th>
-              <th>Etudiant Conserne</th>
-              <th>Created At</th>
-              <th>Actions</th>
+              <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Etat</th>
+              <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Sujet</th>
+              <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Information</th>
+              <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Etudiant Conserne</th>
+              <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Created At</th>
+              <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Actions</th>
             </tr>
           </thead>
           <tbody>
             {reclamations.map((reclamation) => (
-              <tr key={reclamation._id}>
-                <td>{reclamation.etat}</td>
-                <td>{reclamation.sujet}</td>
-                <td>{reclamation.information}</td>
-                <td>{reclamation.etudiantConserne.map(e => e.username).join(', ')}</td>
-                <td>{new Date(reclamation.createdAt).toLocaleString()}</td>
-                <td>
-                  <button onClick={() => handleDelete(reclamation._id)}>Delete</button>
+              <tr key={reclamation._id} className="border-b last:border-none">
+                <td className="py-2 px-4 text-sm text-gray-700">{reclamation.etat}</td>
+                <td className="py-2 px-4 text-sm text-gray-700">{reclamation.sujet}</td>
+                <td className="py-2 px-4 text-sm text-gray-700">{reclamation.information}</td>
+                <td className="py-2 px-4 text-sm text-gray-700">
+                  {reclamation.etudiantConserne.map((e) => e.username).join(', ')}
+                </td>
+                <td className="py-2 px-4 text-sm text-gray-700">
+                  {new Date(reclamation.createdAt).toLocaleString()}
+                </td>
+                <td className="py-2 px-4">
+                  <button
+                    onClick={() => handleDelete(reclamation._id)}
+                    className="text-red-500 hover:text-red-700 font-semibold"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p>No reclamations found.</p>
+        <p className="text-gray-600">No reclamations found.</p>
       )}
     </div>
   );
 };
-
 export default ReclamationList;

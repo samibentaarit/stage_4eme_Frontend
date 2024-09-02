@@ -18,13 +18,17 @@ import GradeForm from './components/GradeForm';
 import GradeList from './components/GradeList';
 import StudentEdit from './components/StudentEdit';
 import './index.css'; // Import Tailwind CSS here
+import Navbar from './components/Navbar';
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') !== null;
 
   return (
     <Router>
-      <Routes>
+       <div className="flex">
+       <Navbar />
+        <div className="flex-1 p-10  ">
+      <Routes >
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={
@@ -43,11 +47,13 @@ function App() {
         <Route path="/classes/:classId/students" element={<AssignStudentsToClass />} />
         <Route path="/students" element={<StudentList />} />
         <Route path="/students/:id/edit" element={<StudentEdit />} />
-        <Route path="*" element={<NotFoundPage />} />
         <Route path="/grades" element={<GradeList />} />
         <Route path="/grades/create" element={<GradeForm />} />
         <Route path="/grades/:id/edit" element={<GradeForm />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
+        </div>
+      </div>
     </Router>
   );
 }
