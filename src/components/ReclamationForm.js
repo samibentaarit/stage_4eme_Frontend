@@ -69,33 +69,36 @@ const ReclamationForm = () => {
   };
 
   return (
-    <div>
-      <h2>Create Reclamation</h2>
-      <form onSubmit={handleSubmit}>
+<div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Reclamation</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label>Sujet:</label>
+          <label className="block text-gray-700 font-medium mb-2">Sujet:</label>
           <input
             type="text"
             value={sujet}
             onChange={(e) => setSujet(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label>Information:</label>
+          <label className="block text-gray-700 font-medium mb-2">Information:</label>
           <textarea
             value={information}
             onChange={(e) => setInformation(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label>Etat:</label>
+          <label className="block text-gray-700 font-medium mb-2">Etat:</label>
           <input
             type="text"
             value={etat}
             onChange={(e) => setEtat(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 

@@ -27,7 +27,7 @@ function App() {
     <Router>
        <div className="flex">
        <Navbar />
-        <div className="flex-1 p-10  ">
+        <div className="flex-1 p-10  ml-64">
       <Routes >
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

@@ -29,7 +29,7 @@ const AnnanceList = () => {
       // Update the state to remove the deleted annance from the list
       setAnnances(annances.filter(annance => annance._id !== id));
     } catch (error) {
-      console.error('Error deleting annance:', error);
+      console.error('Error deleting annonce:', error);
       // Optionally, you can display an error message to the user
     }
   };
@@ -38,7 +38,7 @@ const AnnanceList = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">All Annances</h2>
+      <h2 className="text-2xl font-bold mb-4">All Annonces</h2>
       {annances.length > 0 ? (
         <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-100">
@@ -74,7 +74,7 @@ const AnnanceList = () => {
           </tbody>
         </table>
       ) : (
-        <p className="text-gray-600">No annances found.</p>
+        <p className="text-gray-600">No annonces found.</p>
       )}
     </div>
   );

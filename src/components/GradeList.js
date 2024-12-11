@@ -32,45 +32,54 @@ const ClassList = () => {
     };
 
     return (
-        <div className="p-8 bg-gray-100 rounded-xl shadow-lg max-w-4xl mx-auto">
-          <h1 className="text-3xl font-semibold text-gray-800 mb-6">Grade List</h1>
-          <Link
-            to="/grades/create"
-            className="inline-block px-4 py-2 mb-6 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
-          >
-            Create New Grade
-          </Link>
-          {grades.length > 0 ? (
-            <ul className="space-y-4">
-              {grades.map((grade) => (
-                <li
-                  key={grade._id}
-                  className="flex justify-between items-center bg-white border border-gray-200 p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200"
+      <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+      {/* Header Section */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Grade List</h1>
+        <Link
+          to="/grades/create"
+          className="inline-block px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
+        >
+          Create New Grade
+        </Link>
+      </div>
+    
+      {/* Grade List Section */}
+      {grades.length > 0 ? (
+        <ul className="space-y-4">
+          {grades.map((grade) => (
+            <li
+              key={grade._id}
+              className="flex justify-between items-center bg-white border border-gray-200 p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200"
+            >
+              {/* Grade Name */}
+              <span className="text-gray-700 font-medium">
+                <span className="font-semibold">Grade:</span> {grade?.gradeName || 'No Grade Assigned'}
+              </span>
+    
+              {/* Action Buttons */}
+              <div className="flex space-x-3">
+                <Link
+                  to={`/grades/${grade._id}/edit`}
+                  className="w-24 px-3 py-4 text-sm text-yellow-600 bg-yellow-100 rounded-md hover:bg-yellow-200 transition-colors text-center"
                 >
-                  <span className="text-gray-700 font-medium">
-                    <span className="font-semibold">Grade:</span> {grade?.gradeName || 'No Grade Assigned'}
-                  </span>
-                  <div className="space-x-3">
-                    <Link
-                      to={`/grades/${grade._id}/edit`}
-                      className="px-3 py-1 text-sm text-blue-600 bg-blue-100 rounded-md hover:bg-blue-200 transition-colors"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(grade._id)}
-                      className="px-3 py-1 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500 mt-4">No grades found.</p>
-          )}
-        </div>
+                  Edit
+                </Link>
+                <button
+                  onClick={() => handleDelete(grade._id)}
+                  className="w-24 px-3 py-4 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors text-center"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-600">No grades found.</p>
+      )}
+    </div>
+    
       );
     };
     

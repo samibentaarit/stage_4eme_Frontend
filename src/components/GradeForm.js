@@ -45,6 +45,7 @@ const GradeForm = () => {
     return (
         <div>
             <h1>{id ? 'Edit Grade' : 'Create New Grade'}</h1>
+            <br />  
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Grade Name</label>
