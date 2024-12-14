@@ -12,10 +12,10 @@ const handleLogout = () => {
 
 function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-10">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center  py-5 px-10">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-3xl text-center">
         {/* Welcome Header */}
-        <h1 className="text-4xl font-bold text-yellow-500 mb-4">Welcome to Our Platform!</h1>
+        <h1 className="text-4xl font-extrabold text-indigo-600 mb-4">Welcome to Our Platform!</h1>
         <p className="text-gray-700 text-lg mb-8">
           Discover the amazing features of our app and manage your content efficiently. 
           Whether you're working with students, grades, or announcements, we provide you 
@@ -33,20 +33,20 @@ function HomePage() {
 
         {/* Highlights Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="p-4 bg-yellow-50 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-yellow-600">Easy Management</h3>
+          <div className="p-4 bg-indigo-50 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold text-indigo-600">Easy Management</h3>
             <p className="text-gray-600 mt-2">
               Manage your classes, students, grades, and more with just a few clicks.
             </p>
           </div>
-          <div className="p-4 bg-yellow-50 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-yellow-600">Stay Organized</h3>
+          <div className="p-4 bg-indigo-50 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold text-indigo-600">Stay Organized</h3>
             <p className="text-gray-600 mt-2">
               Keep track of announcements, handle reclamations, and ensure smooth workflows.
             </p>
           </div>
-          <div className="p-4 bg-yellow-50 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-yellow-600">Secure & Reliable</h3>
+          <div className="p-4 bg-indigo-50 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold text-indigo-600">Secure & Reliable</h3>
             <p className="text-gray-600 mt-2">
               Your data is stored securely, ensuring peace of mind and reliable access.
             </p>
@@ -57,7 +57,7 @@ function HomePage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/signup"
-            className="px-6 py-3 bg-yellow-500 text-white text-lg rounded-lg shadow hover:bg-yellow-600 transition"
+            className="px-6 py-3 bg-indigo-400 text-white text-lg rounded-lg shadow hover:bg-indigo-600 transition"
           >
             Get Started
           </Link>

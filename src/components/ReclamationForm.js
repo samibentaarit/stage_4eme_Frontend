@@ -11,6 +11,7 @@ const ReclamationForm = () => {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState('');
   const [includeParents, setIncludeParents] = useState(true);
+  const [etudiantFilter, setEtudiantFilter] = useState('');
 
   useEffect(() => {
     // Fetch users when the component mounts
@@ -26,19 +27,24 @@ const ReclamationForm = () => {
     fetchUsers();
   }, []);
 
-  const handleEtudiantConserneChange = (selectedOptions) => {
-    const selectedStudents = [...selectedOptions].map(option => option.value);
-    setEtudiantConserne(selectedStudents);
+  const handleEtudiantCheckboxChange = (studentId) => {
+    setEtudiantConserne((prevSelected) => {
+      const updatedList = prevSelected.includes(studentId)
+        ? prevSelected.filter((id) => id !== studentId)
+        : [...prevSelected, studentId];
 
-    // Automatically fill parentConserne based on the selected students
-    const selectedParents = [];
-    selectedStudents.forEach(studentId => {
-      const student = users.find(user => user._id === studentId);
-      if (student?.parents) {
-        selectedParents.push(...student.parents);
-      }
+      // Automatically fill parentConserne based on the selected students
+      const selectedParents = [];
+      updatedList.forEach((id) => {
+        const student = users.find((user) => user._id === id);
+        if (student?.parents) {
+          selectedParents.push(...student.parents);
+        }
+      });
+      setParentConserne([...new Set(selectedParents)]); // Remove duplicate parent IDs
+
+      return updatedList;
     });
-    setParentConserne([...new Set(selectedParents)]); // Remove duplicate parent IDs
   };
 
   const handleSubmit = async (e) => {
@@ -68,10 +74,19 @@ const ReclamationForm = () => {
     }
   };
 
+  // Filtered users based on search input
+  const filteredEtudiants = users.filter((user) =>
+    user.username.toLowerCase().includes(etudiantFilter.toLowerCase()) ||
+    user.email.toLowerCase().includes(etudiantFilter.toLowerCase())
+  );
+  
   return (
-<div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Reclamation</h2>
+    <div className="max-w-6xl mx-auto bg-white py-5 px-10 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">
+        Create Reclamation
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Sujet Field */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">Sujet:</label>
           <input
@@ -79,18 +94,25 @@ const ReclamationForm = () => {
             value={sujet}
             onChange={(e) => setSujet(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter the subject"
           />
         </div>
+  
+        {/* Information Field */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">Information:</label>
           <textarea
             value={information}
             onChange={(e) => setInformation(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter detailed information"
+            rows="4"
           />
         </div>
+  
+        {/* Etat Field */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">Etat:</label>
           <input
@@ -98,46 +120,92 @@ const ReclamationForm = () => {
             value={etat}
             onChange={(e) => setEtat(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter the status"
           />
         </div>
-
+  
+ {/* Etudiant Conserne Field */}
         <div>
-          <label>Etudiant Conserne:</label>
-          <select
-            multiple
-            value={etudiantConserne}
-            onChange={(e) => handleEtudiantConserneChange(e.target.selectedOptions)}
-          >
-            {users.map((user) => (
-              user.isStudent && (
-                <option key={user._id} value={user._id}>
-                  {user.username} ({user.email})
-                </option>
-              )
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Notifier les Parents? (Auto-filled):</label>
+          <label className="block text-gray-700 font-medium mb-2">
+            Etudiant Conserne:
+          </label>
           <input
-            type="checkbox"
-            checked={includeParents}
-            onChange={(e) => setIncludeParents(e.target.checked)}
+            type="text"
+            placeholder="Search students..."
+            value={etudiantFilter}
+            onChange={(e) => setEtudiantFilter(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          <ul>
+          <div className="max-h-40 overflow-y-auto border rounded-lg mt-2 p-3 bg-gray-50">
+            {filteredEtudiants.map((etudiant) => (
+              <label
+                key={etudiant._id}
+                onClick={() => handleEtudiantCheckboxChange(etudiant._id)}
+                className={`flex items-center justify-between cursor-pointer p-2 rounded-lg ${
+                  etudiantConserne.includes(etudiant._id) ? 'bg-indigo-100' : ''
+                }`}
+              >
+                <span className="text-gray-600">
+                  {etudiant.username} ({etudiant.email})
+                </span>
+                <input
+                  type="checkbox"
+                  checked={etudiantConserne.includes(etudiant._id)}
+                  onChange={() => handleEtudiantCheckboxChange(etudiant._id)}
+                  className="w-4 h-4 pointer-events-none"
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+  
+        {/* Notify Parents */}
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={includeParents}
+              onChange={(e) => setIncludeParents(e.target.checked)}
+              className="w-4 h-4 mr-2"
+            />
+            <label className="text-gray-700 font-medium">
+              Notifier les Parents? (Auto-filled)
+            </label>
+          </div>
+          <ul className="list-disc list-inside bg-gray-50 p-3 rounded-lg">
             {parentConserne.map((parentId) => {
-              const parent = users.find(user => user._id === parentId);
-              return parent ? <li key={parentId}>{parent.username} ({parent.email})</li> : null;
+              const parent = users.find((user) => user._id === parentId);
+              return parent ? (
+                <li key={parentId} className="text-gray-600">
+                  {parent.username} ({parent.email})
+                </li>
+              ) : null;
             })}
           </ul>
         </div>
-        <button type="submit">Create Reclamation</button>
+  
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300"
+        >
+          Create Reclamation
+        </button>
       </form>
-      {message && <p>{message}</p>}
+  
+      {/* Message Display */}
+      {message && (
+        <div className="mt-6 p-4 text-center text-white bg-green-500 rounded-lg">
+          {message}
+        </div>
+      )}
     </div>
   );
+  
+
 };
 
 
 export default ReclamationForm;
+	

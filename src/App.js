@@ -19,6 +19,7 @@ import GradeList from './components/GradeList';
 import StudentEdit from './components/StudentEdit';
 import './index.css'; // Import Tailwind CSS here
 import Navbar from './components/Navbar';
+import AssignStudentsToGrade from './components/AssignStudentsToGrade';
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') !== null;
@@ -27,7 +28,7 @@ function App() {
     <Router>
        <div className="flex">
        <Navbar />
-        <div className="flex-1 p-10  ml-64">
+        <div className="flex-1 py-5 px-10   ml-64">
       <Routes >
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
@@ -50,6 +51,7 @@ function App() {
         <Route path="/grades" element={<GradeList />} />
         <Route path="/grades/create" element={<GradeForm />} />
         <Route path="/grades/:id/edit" element={<GradeForm />} />
+        <Route path="/grades/:gradeId/assign-students" element={<AssignStudentsToGrade />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
         </div>

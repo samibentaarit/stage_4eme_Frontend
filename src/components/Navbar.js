@@ -8,11 +8,11 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="bg-yellow-400 w-64 h-screen p-5 flex flex-col justify-between fixed top-0 left-0">
+    <div className="bg-indigo-500 w-64 h-screen p-5 flex flex-col justify-between fixed top-0 left-0 transition duration-300">
       <div>
         {/* Logo Section */}
-        <div className="mb-10">
-          <h1 className="text-2xl font-bold text-black">The LOGO</h1>
+        <div className="mb-10 text-center">
+          <h1 className="text-2xl font-bold text-white">The LOGO</h1>
         </div>
 
         {/* Navigation Links */}
@@ -21,8 +21,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className={`block py-2 px-4 rounded ${
-                  isActive("/") ? "bg-black text-white" : "text-black hover:bg-yellow-300"
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                  isActive("/")
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Home
@@ -31,10 +33,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/reclamations"
-                className={`block py-2 px-4 rounded ${
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
                   isActive("/reclamations")
-                    ? "bg-black text-white"
-                    : "text-black hover:bg-yellow-300"
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Reclamations
@@ -43,10 +45,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/create-annance"
-                className={`block py-2 px-4 rounded ${
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
                   isActive("/create-annance")
-                    ? "bg-black text-white"
-                    : "text-black hover:bg-yellow-300"
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Create Annonce
@@ -55,10 +57,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/create-reclamation"
-                className={`block py-2 px-4 rounded ${
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
                   isActive("/create-reclamation")
-                    ? "bg-black text-white"
-                    : "text-black hover:bg-yellow-300"
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Create Reclamation
@@ -67,10 +69,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/students"
-                className={`block py-2 px-4 rounded ${
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
                   isActive("/students")
-                    ? "bg-black text-white"
-                    : "text-black hover:bg-yellow-300"
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Students
@@ -79,10 +81,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/grades"
-                className={`block py-2 px-4 rounded ${
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
                   isActive("/grades")
-                    ? "bg-black text-white"
-                    : "text-black hover:bg-yellow-300"
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Grades
@@ -91,10 +93,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/classes"
-                className={`block py-2 px-4 rounded ${
+                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
                   isActive("/classes")
-                    ? "bg-black text-white"
-                    : "text-black hover:bg-yellow-300"
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
                 }`}
               >
                 Classes
@@ -111,7 +113,7 @@ const Navbar = () => {
           alt="Profile"
           className="rounded-full"
         />
-        <span className="text-black font-semibold">Admin</span>
+        <span className="text-white font-semibold">Admin</span>
       </div>
     </div>
   );

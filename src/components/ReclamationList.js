@@ -32,10 +32,10 @@ const ReclamationList = () => {
   
   return (
 <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-  <h2 className="text-2xl font-bold mb-4">All Reclamations</h2>
+  <h2 className="text-2xl font-extrabold text-indigo-600 mb-4">All Reclamations</h2>
   {reclamations.length > 0 ? (
-    <table className="min-w-full bg-white border border-yellow-200 rounded-lg overflow-hidden">
-      <thead className="bg-yellow-100">
+    <table className="min-w-full bg-white border border-indigo-200 rounded-lg overflow-hidden">
+      <thead className="bg-indigo-100">
         <tr>
           <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Sujet</th>
           <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">Information</th>
