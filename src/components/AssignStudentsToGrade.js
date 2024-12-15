@@ -23,7 +23,7 @@ const AssignStudentsToGrade = () => {
         // Fetch all students
         const studentsResponse = await axios.get("http://localhost:8080/user/students");
         const allStudents = studentsResponse.data;
-console.log(allStudents);
+        
         // Fetch already assigned students
         const assignedResponse = await axios.get(`http://localhost:8080/grades/${gradeId}/students`);
         const assignedToGrade = assignedResponse.data.map((student) => student._id);

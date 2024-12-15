@@ -1,6 +1,4 @@
-// src/Login.js
 import React, { useState } from 'react';
-import '../style/Login.css';
 import axios from 'axios';
 
 const Login = () => {
@@ -12,60 +10,74 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/auth/api/auth/signin', {
-        username,
-        password,
-      }, {
-        withCredentials: true, // This allows cookies to be sent and received
-      });
+      const response = await axios.post(
+        'http://localhost:8080/auth/api/auth/signin',
+        { username, password },
+        { withCredentials: true }
+      );
 
       if (response.status === 200) {
         const { id, username, email, roles } = response.data;
 
-        // Save data in session storage
         localStorage.setItem('id', id);
         localStorage.setItem('username', username);
         localStorage.setItem('email', email);
         localStorage.setItem('roles', JSON.stringify(roles));
 
-        console.log('User data saved to session storage');
-        // You can navigate to another page or update the UI as needed
         window.location.href = '/';
       }
     } catch (error) {
       console.error('Login error:', error);
       setError('Login failed. Please check your credentials.');
-      // Handle error cases, like invalid credentials
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login to Your Account</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-md hover:from-green-500 hover:to-blue-600 transition-all"
+          >
+            Login
+          </button>
+        </form>
+        <p className="mt-6 text-center text-gray-600">
+          Don't have an account?{' '}
+          <a href="/signup" className="text-blue-600 hover:underline">
+            Sign Up
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../style/Login.css';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -9,12 +8,7 @@ function SignUp() {
   const [role, setRole] = useState('');
 
   const handleRoleChange = (event) => {
-    const value = event.target.value;
-    setRole((prevRoles) =>
-      prevRoles.includes(value)
-        ? prevRoles.filter((role) => role !== value)
-        : [...prevRoles, value]
-    );
+    setRole(event.target.value);
   };
 
   const handleSignUp = async (e) => {
@@ -38,49 +32,77 @@ function SignUp() {
   };
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSignUp}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"            
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="role">Roles:</label>
-          <select id="role" multiple={false} value={role} onChange={handleRoleChange}>
-            <option value="moderator">Moderator</option>
-            <option value="parent">Parent</option>
-            <option value="student">Student</option>
-          </select>
-        </div>
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Create an Account</h2>
+        <form onSubmit={handleSignUp} className="space-y-5">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"            
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+              Role
+            </label>
+            <select
+              id="role"
+              value={role}
+              onChange={handleRoleChange}
+              required
+              className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="" disabled>Select your role</option>
+              <option value="moderator">Moderator</option>
+              <option value="parent">Parent</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-md hover:from-green-500 hover:to-blue-600 transition-all"
+          >
+            Sign Up
+          </button>
+        </form>
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account? <a href="/login" className="text-blue-600 hover:underline">Log in</a>
+        </p>
+      </div>
     </div>
   );
 }

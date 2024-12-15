@@ -20,6 +20,7 @@ import StudentEdit from './components/StudentEdit';
 import './index.css'; // Import Tailwind CSS here
 import Navbar from './components/Navbar';
 import AssignStudentsToGrade from './components/AssignStudentsToGrade';
+import AssignStudentsToGradeCopy from './components/AssignStudentsToGrade copy';
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') !== null;
@@ -52,6 +53,7 @@ function App() {
         <Route path="/grades/create" element={<GradeForm />} />
         <Route path="/grades/:id/edit" element={<GradeForm />} />
         <Route path="/grades/:gradeId/assign-students" element={<AssignStudentsToGrade />} />
+        <Route path="/gradess/:gradeId/assign-students" element={<AssignStudentsToGradeCopy />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
         </div>
