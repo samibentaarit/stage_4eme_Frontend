@@ -8,16 +8,13 @@ const Navbar = () => {
   // Helper function to check if a route is active
   const isActive = (path) => location.pathname === path;
 
-  // Logout handler
-  const handleLogout = () => {
-    // Clear user session (e.g., token from localStorage)
-    localStorage.removeItem("authToken");
-
-    // Optional: Show a confirmation (e.g., toast notification)
-    alert("You have been logged out!");
-
-    // Redirect to login page
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:8080/logout', { method: 'POST', credentials: 'include' });
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (
