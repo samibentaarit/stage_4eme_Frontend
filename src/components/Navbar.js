@@ -1,11 +1,24 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react'; 
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Helper function to check if a route is active
   const isActive = (path) => location.pathname === path;
+
+  // Logout handler
+  const handleLogout = () => {
+    // Clear user session (e.g., token from localStorage)
+    localStorage.removeItem("authToken");
+
+    // Optional: Show a confirmation (e.g., toast notification)
+    alert("You have been logged out!");
+
+    // Redirect to login page
+    navigate("/login");
+  };
 
   return (
     <div className="bg-indigo-500 w-64 h-screen p-5 flex flex-col justify-between fixed top-0 left-0 transition duration-300">
@@ -21,7 +34,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -33,7 +46,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/reclamations"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/reclamations")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -45,7 +58,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/create-annance"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/create-annance")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -57,7 +70,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/create-reclamation"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/create-reclamation")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -69,7 +82,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/students"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/students")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -81,7 +94,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/grades"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/grades")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -93,7 +106,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/classes"
-                className={`block py-2 px-4 rounded-lg  transition duration-300 ${
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/classes")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
@@ -107,13 +120,21 @@ const Navbar = () => {
       </div>
 
       {/* Profile Section */}
-      <div className="flex items-center gap-2">
-        <img
-          src="https://via.placeholder.com/40"
-          alt="Profile"
-          className="rounded-full"
-        />
-        <span className="text-white font-semibold">Admin</span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <img
+            src="https://via.placeholder.com/40"
+            alt="Profile"
+            className="rounded-full"
+          />
+          <span className="text-white font-semibold">Admin</span>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="ml-4 bg-red-500 text-white py-1 px-3 rounded-lg transition duration-300 hover:bg-red-700"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
