@@ -6,6 +6,8 @@ const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -20,6 +22,32 @@ const StudentList = () => {
 
     fetchStudents();
   }, []);
+
+  const openModal = (student) => {
+    setSelectedStudent(student);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedStudent(null);
+    setIsModalOpen(false);
+  };
+
+  const handleModalChange = (e) => {
+    setSelectedStudent({ ...selectedStudent, [e.target.name]: e.target.value });
+  };
+
+  const handleModalSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(`http://localhost:8080/user/users/${selectedStudent._id}`, selectedStudent);
+      alert("Student updated successfully!");
+      setStudents((prev) => prev.map((s) => (s._id === selectedStudent._id ? selectedStudent : s)));
+      closeModal();
+    } catch (error) {
+      console.error("Error updating student:", error);
+    }
+  };
 
   // Filter students based on the search term
   const filteredStudents = students.filter((student) =>
@@ -86,7 +114,7 @@ const StudentList = () => {
                 </ul>
               </div>
               <Link
-                to={`/students/${student._id}/edit`}
+                onClick={() => openModal(student)}
                 className="block mt-4 text-center text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg py-2 transition duration-300"
               >
                 Edit
@@ -96,6 +124,64 @@ const StudentList = () => {
         </ul>
       ) : (
         <p className="text-gray-600 text-center">No students found.</p>
+      )}
+
+      {/* Modal */}
+      {isModalOpen && selectedStudent && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-2xl font-bold mb-4 text-indigo-600">Edit Student</h2>
+            <form onSubmit={handleModalSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={selectedStudent.username}
+                  onChange={handleModalChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={selectedStudent.email}
+                  onChange={handleModalChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Class</label>
+                <input
+                  type="text"
+                  name="class"
+                  value={selectedStudent.class?.className || ''}
+                  onChange={handleModalChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg py-2 px-4 mr-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg py-2 px-4"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

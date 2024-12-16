@@ -41,40 +41,86 @@ const StudentEdit = () => {
     }
   };
 
+  const containerStyle = {
+    maxWidth: '600px',
+    margin: '50px auto',
+    padding: '20px',
+    border: '1px solid #ccc',
+    borderRadius: '8px',
+    backgroundColor: '#f9f9f9',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    fontSize: '16px',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#007BFF',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '16px',
+    cursor: 'pointer',
+  };
+
+  const labelStyle = {
+    fontWeight: 'bold',
+    marginBottom: '5px',
+    display: 'block',
+  };
+
+  const titleStyle = {
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontSize: '24px',
+    color: '#333',
+  };
+
   return (
-    <div>
-      <h1>Edit Student</h1>
+    <div style={containerStyle}>
+      <h1 style={titleStyle}>Edit Student</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Username:</label>
+          <label style={labelStyle}>Username:</label>
           <input
             type="text"
             name="username"
             value={student.username}
             onChange={handleChange}
             required
+            style={inputStyle}
           />
         </div>
         <div>
-          <label>Email:</label>
+          <label style={labelStyle}>Email:</label>
           <input
             type="email"
             name="email"
             value={student.email}
             onChange={handleChange}
             required
+            style={inputStyle}
           />
         </div>
         <div>
-          <label>Class:</label>
+          <label style={labelStyle}>Class:</label>
           <input
             type="text"
             name="class"
             value={student.class || ''}
             onChange={handleChange}
+            style={inputStyle}
           />
         </div>
-        <button type="submit">Save Changes</button>
+        <button type="submit" style={buttonStyle}>Save Changes</button>
       </form>
     </div>
   );
