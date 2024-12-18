@@ -42,6 +42,18 @@ const Navbar = () => {
             </li>
             <li>
               <Link
+                to="/annonces"
+                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                  isActive("/annances")
+                    ? "bg-indigo-700 text-white"
+                    : "text-white hover:bg-indigo-600"
+                }`}
+              >
+                Annances
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/reclamations"
                 className={`block py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/reclamations")

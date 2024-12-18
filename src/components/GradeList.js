@@ -112,24 +112,24 @@ const GradeList = () => {
                 <span className="font-semibold">Grade:</span> {grade?.gradeName || 'No Grade Assigned'}
               </span>
               <div className="flex space-x-3">
+                <a
+                  href={`/grades/${grade._id}/assign-students`}
+                  className="w-40 px-3 py-4 text-sm text-green-600 bg-green-100 rounded-md hover:bg-green-200 transition-colors text-center"
+                >
+                  Assign Students
+                </a>
                 <button
                   onClick={() => handleEdit(grade)}
-                  className="w-24 px-3 py-2 text-sm text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 transition-colors text-center"
+                  className="w-24 px-3 py-4 text-sm text-indigo-600 bg-indigo-100 rounded-md hover:bg-indigo-200 transition-colors text-center"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(grade._id)}
-                  className="w-24 px-3 py-2 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors text-center"
+                  className="w-24 px-3 py-4 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors text-center"
                 >
                   Delete
                 </button>
-                <a
-                  href={`/grades/${grade._id}/assign-students`}
-                  className="w-40 px-3 py-2 text-sm text-green-600 bg-green-100 rounded-md hover:bg-green-200 transition-colors text-center"
-                >
-                  Assign Students
-                </a>
               </div>
             </li>
           ))}

@@ -108,7 +108,7 @@ const ClassList = () => {
                             <div className="flex space-x-3">
                                 <Link
                                     to={`/classes/${classObj._id}/students`}
-                                    className="w-30 px-3 py-4 text-sm text-green-600 bg-green-100 rounded-md hover:bg-green-200 transition-colors text-center"
+                                    className="w-40 px-3 py-4 text-sm text-green-600 bg-green-100 rounded-md hover:bg-green-200 transition-colors text-center"
                                 >
                                     Assign Students
                                 </Link>
@@ -120,7 +120,7 @@ const ClassList = () => {
                                 </button>
                                 <button
                                     onClick={() => handleDelete(classObj._id)}
-                                    className="w-24 px-3 py-2 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors text-center"
+                                    className="w-24 px-3 py-4 text-sm text-red-600 bg-red-100 rounded-md hover:bg-red-200 transition-colors text-center"
                                 >
                                     Delete
                                 </button>

@@ -86,7 +86,6 @@ const AssignStudents = () => {
         className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
 
-      {/* Student List */}
       <div className="space-y-4">
         {filteredStudents.length > 0 ? (
           filteredStudents.map((student) => (

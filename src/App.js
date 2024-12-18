@@ -31,7 +31,7 @@ function App() {
         <Route path="/signup" element={<AuthLayout><SignUp /></AuthLayout>} />
         <Route path="/" element={<MainLayout><ProtectedRoute isLoggedIn={isLoggedIn}><HomePage /></ProtectedRoute></MainLayout>} />
         <Route path="/reclamations" element={<MainLayout><ReclamationList /></MainLayout>} />
-        <Route path="/annances" element={<MainLayout><AnnanceList /></MainLayout>} />
+        <Route path="/annonces" element={<MainLayout><AnnanceList /></MainLayout>} />
         <Route path="/create-annance" element={<MainLayout><AnnanceForm /></MainLayout>} />
         <Route path="/create-reclamation" element={<MainLayout><ReclamationForm /></MainLayout>} />
         <Route path="/classes" element={<MainLayout><ClassList /></MainLayout>} />
