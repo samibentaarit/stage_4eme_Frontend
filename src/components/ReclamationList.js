@@ -13,7 +13,7 @@ const ReclamationList = () => {
       } catch (error) {
         console.error('Error fetching reclamations:', error);
       }
-    };
+    };  
 
     fetchReclamations();
   }, []);

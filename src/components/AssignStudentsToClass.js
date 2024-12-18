@@ -47,7 +47,7 @@ const AssignStudents = () => {
     try {
       await axios.post(
         `http://localhost:8080/classes/${classId}/students`,
-        { studentIds: selectedStudents },
+        { classId, studentIds: selectedStudents },
         { withCredentials: true }
       );
 
