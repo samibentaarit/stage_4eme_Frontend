@@ -89,6 +89,10 @@ const StudentList = () => {
                 <strong>Email:</strong> {student.email}
               </p>
               <p className="text-gray-700">
+                <strong>Grade:</strong>{" "}
+                {student.grade
+                  ? student.grade.gradeName || "Class Name Not Available"
+                  : "Not Assigned"}
                 <strong>Class:</strong>{" "}
                 {student.class
                   ? student.class.className || "Class Name Not Available"
