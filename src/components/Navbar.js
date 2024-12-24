@@ -49,7 +49,7 @@ const Navbar = () => {
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
-                Annances
+                Annonces
               </Link>
             </li>
             <li>
