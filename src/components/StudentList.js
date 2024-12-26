@@ -8,6 +8,8 @@ const StudentList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [grades, setGrades] = useState([]);
+  const [classes, setClasses] = useState([]);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -20,7 +22,27 @@ const StudentList = () => {
       }
     };
 
+    const fetchGrades = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/grades");
+        setGrades(response.data);
+      } catch (err) {
+        console.error("Error fetching grades:", err);
+      }
+    };
+
+    const fetchClasses = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/classes");
+        setClasses(response.data);
+      } catch (err) {
+        console.error("Error fetching classes:", err);
+      }
+    };
+
     fetchStudents();
+    fetchGrades();
+    fetchClasses();
   }, []);
 
   const openModal = (student) => {
@@ -35,6 +57,11 @@ const StudentList = () => {
 
   const handleModalChange = (e) => {
     setSelectedStudent({ ...selectedStudent, [e.target.name]: e.target.value });
+  };
+
+  const handleDropdownChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedStudent({ ...selectedStudent, [name]: value });
   };
 
   const handleModalSubmit = async (e) => {
@@ -80,42 +107,45 @@ const StudentList = () => {
           {filteredStudents.map((student) => (
             <li
               key={student._id}
-              className="bg-white border border-gray-200 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+              className="bg-white border border-gray-200 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
             >
-              <h2 className="text-lg font-bold text-indigo-700 mb-2">
-                {student.username}
-              </h2>
-              <p className="text-gray-700">
-                <strong>Email:</strong> {student.email}
-              </p>
-              <p className="text-gray-700">
-                <strong>Grade:</strong>{" "}
-                {student.grade
-                  ? student.grade.gradeName || "Class Name Not Available"
-                  : "Not Assigned"}
-                <strong>Class:</strong>{" "}
-                {student.class
-                  ? student.class.className || "Class Name Not Available"
-                  : "Not Assigned"}
-              </p>
-              <div className="mt-4">
+              <div>
+                <h2 className="text-lg font-bold text-indigo-700 mb-2">
+                  {student.username}
+                </h2>
                 <p className="text-gray-700">
-                  <strong>Parents:</strong>{" "}
-                  {student.parents && student.parents.length > 0
-                    ? ""
-                    : "No Parents Listed"}
+                  <strong>Email:</strong> {student.email}
                 </p>
-                <ul className="ml-4 list-disc text-gray-600">
-                  {student.parents &&
-                    student.parents.map((parent) => (
-                      <li key={parent._id}>
-                        <span className="text-gray-800 font-medium">
-                          {parent.username}
-                        </span>{" "}
-                        - {parent.email}
-                      </li>
-                    ))}
-                </ul>
+                <p className="text-gray-700">
+                  <strong>Grade:</strong>{" "}
+                  {student.grade
+                    ? student.grade.gradeName || "Grade Name Not Available"
+                    : "Not Assigned"}
+                  <br />
+                  <strong>Class:</strong>{" "}
+                  {student.class
+                    ? student.class.className || "Class Name Not Available"
+                    : "Not Assigned"}
+                </p>
+                <div className="mt-4">
+                  <p className="text-gray-700">
+                    <strong>Parents:</strong>{" "}
+                    {student.parents && student.parents.length > 0
+                      ? ""
+                      : "No Parents Listed"}
+                  </p>
+                  <ul className="ml-4 list-disc text-gray-600">
+                    {student.parents &&
+                      student.parents.map((parent) => (
+                        <li key={parent._id}>
+                          <span className="text-gray-800 font-medium">
+                            {parent.username}
+                          </span>{" "}
+                          - {parent.email}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
               </div>
               <Link
                 onClick={() => openModal(student)}
@@ -160,13 +190,48 @@ const StudentList = () => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold mb-2">Class</label>
-                <input
-                  type="text"
+                <select
                   name="class"
-                  value={selectedStudent.class?.className || ''}
-                  onChange={handleModalChange}
+                  value={selectedStudent.class || ""}
+                  onChange={handleDropdownChange}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
+                >
+                  <option value="">Select Class</option>
+                  {classes.map((cls) => (
+                    <option key={cls._id} value={cls._id}>
+                      {cls.className}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Grade</label>
+                <select
+                  name="grade"
+                  value={selectedStudent.grade || ""}
+                  onChange={handleDropdownChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">Select Grade</option>
+                  {grades.map((grade) => (
+                    <option key={grade._id} value={grade._id}>
+                      {grade.gradeName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Parents</label>
+                <ul className="list-disc pl-4">
+                  {selectedStudent.parents?.map((parent) => (
+                    <li key={parent._id}>
+                      <span className="text-gray-800 font-medium">
+                        {parent.username}
+                      </span>{" "}
+                      - {parent.email}
+                    </li>
+                  )) || <p className="text-gray-600">No Parents Listed</p>}
+                </ul>
               </div>
               <div className="flex justify-end">
                 <button
