@@ -127,7 +127,7 @@ const StudentList = () => {
                     ? student.class.className || "Class Name Not Available"
                     : "Not Assigned"}
                 </p>
-                <div className="mt-4">
+                <div className="mt-0">
                   <p className="text-gray-700">
                     <strong>Parents:</strong>{" "}
                     {student.parents && student.parents.length > 0
@@ -189,9 +189,41 @@ const StudentList = () => {
                 />
               </div>
               <div className="mb-4">
+<div className="mb-4">
+  <label className="block text-gray-700 font-bold mb-2">Grade</label>
+  <select
+    name="gradeId"
+    value={selectedStudent.gradeId || ""} // Ensure the value is just the ID
+    onChange={handleDropdownChange}
+    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+  >
+    <option value="">Select Grade</option>
+    {grades.map((grade) => (
+      <option key={grade._id} value={grade._id}>
+        {grade.gradeName}
+      </option>
+    ))}
+  </select>
+</div>
+<div className="mb-4">
+  <label className="block text-gray-700 font-bold mb-2">Class</label>
+  <select
+    name="classId"
+    value={selectedStudent.classId || ""} // Ensure the value is just the ID
+    onChange={handleDropdownChange}
+    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+  >
+    <option value="">Select Class</option>
+    {classes.map((cls) => (
+      <option key={cls._id} value={cls._id}>
+        {cls.className}
+      </option>
+    ))}
+  </select>
+</div>
                 <label className="block text-gray-700 font-bold mb-2">Class</label>
                 <select
-                  name="class"
+                  name="classId"
                   value={selectedStudent.class || ""}
                   onChange={handleDropdownChange}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -200,22 +232,6 @@ const StudentList = () => {
                   {classes.map((cls) => (
                     <option key={cls._id} value={cls._id}>
                       {cls.className}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2">Grade</label>
-                <select
-                  name="grade"
-                  value={selectedStudent.grade || ""}
-                  onChange={handleDropdownChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <option value="">Select Grade</option>
-                  {grades.map((grade) => (
-                    <option key={grade._id} value={grade._id}>
-                      {grade.gradeName}
                     </option>
                   ))}
                 </select>
