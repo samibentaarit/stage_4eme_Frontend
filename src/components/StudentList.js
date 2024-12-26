@@ -45,11 +45,14 @@ const StudentList = () => {
     fetchClasses();
   }, []);
 
-  const openModal = (student) => {
-    setSelectedStudent(student);
-    setIsModalOpen(true);
-  };
-
+const openModal = (student) => {
+  setSelectedStudent({
+    ...student,
+    gradeId: student.grade?._id || "",
+    classId: student.class?._id || "",
+  });
+  setIsModalOpen(true);
+};
   const closeModal = () => {
     setSelectedStudent(null);
     setIsModalOpen(false);
@@ -189,42 +192,27 @@ const StudentList = () => {
                 />
               </div>
               <div className="mb-4">
-<div className="mb-4">
-  <label className="block text-gray-700 font-bold mb-2">Grade</label>
-  <select
-    name="gradeId"
-    value={selectedStudent.gradeId || ""} // Ensure the value is just the ID
-    onChange={handleDropdownChange}
-    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-  >
-    <option value="">Select Grade</option>
-    {grades.map((grade) => (
-      <option key={grade._id} value={grade._id}>
-        {grade.gradeName}
-      </option>
-    ))}
-  </select>
-</div>
-<div className="mb-4">
-  <label className="block text-gray-700 font-bold mb-2">Class</label>
-  <select
-    name="classId"
-    value={selectedStudent.classId || ""} // Ensure the value is just the ID
-    onChange={handleDropdownChange}
-    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-  >
-    <option value="">Select Class</option>
-    {classes.map((cls) => (
-      <option key={cls._id} value={cls._id}>
-        {cls.className}
-      </option>
-    ))}
-  </select>
-</div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">Grade</label>
+                <select
+                  name="gradeId"
+                  value={selectedStudent.gradeId || ""} // Ensure the value is just the ID
+                  onChange={handleDropdownChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">Select Grade</option>
+                  {grades.map((grade) => (
+                    <option key={grade._id} value={grade._id}>
+                      {grade.gradeName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
                 <label className="block text-gray-700 font-bold mb-2">Class</label>
                 <select
                   name="classId"
-                  value={selectedStudent.class || ""}
+                  value={selectedStudent.classId || ""} // Ensure the value is just the ID
                   onChange={handleDropdownChange}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
@@ -235,6 +223,7 @@ const StudentList = () => {
                     </option>
                   ))}
                 </select>
+              </div>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold mb-2">Parents</label>
