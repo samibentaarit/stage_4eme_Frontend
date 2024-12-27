@@ -9,7 +9,9 @@ const AnnanceList = () => {
   useEffect(() => {
     const fetchAnnances = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/annances');
+        const response = await axios.get('http://localhost:8080/annances', {
+          withCredentials: true, // Include cookies in requests
+        });
         setAnnances(response.data);
       } catch (error) {
         console.error('Error fetching annances:', error);
