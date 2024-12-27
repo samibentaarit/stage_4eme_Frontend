@@ -112,7 +112,7 @@ const AnnanceForm = () => {
   return (
 <div className="max-w-6xl mx-auto py-4 px-10 rounded-lg shadow-lg">
   <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">Create Annonce</h2>
-  <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-2">
+  <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-3">
     {/* Sujet Field */}
     <div>
       <label className="block text-gray-700 font-medium mb-2">Sujet:</label>

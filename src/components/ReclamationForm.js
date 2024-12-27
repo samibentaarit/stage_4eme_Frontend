@@ -85,7 +85,7 @@ const ReclamationForm = () => {
       <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">
         Create Reclamation
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-3">
         {/* Sujet Field */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">Sujet:</label>
@@ -99,33 +99,34 @@ const ReclamationForm = () => {
           />
         </div>
   
-        {/* Information Field */}
-        <div>
-          <label className="block text-gray-700 font-medium mb-2">Information:</label>
-          <textarea
-            value={information}
-            onChange={(e) => setInformation(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Enter detailed information"
-            rows="4"
-          />
-        </div>
-  
-        {/* Etat Field */}
-        <div>
-          <label className="block text-gray-700 font-medium mb-2">Etat:</label>
-          <input
-            type="text"
-            value={etat}
-            onChange={(e) => setEtat(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Enter the status"
-          />
-        </div>
-  
- {/* Etudiant Conserne Field */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Information:</label>
+            <textarea
+              value={information}
+              onChange={(e) => setInformation(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter detailed information"
+              rows="2"
+            />
+          </div>
+          
+          {/* Etat Field */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Etat:</label>
+            <select
+              value={etat}
+              onChange={(e) => setEtat(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="simple fault">Simple Fault</option>
+              <option value="severe">Severe</option>
+              <option value="intermediate">Intermediate</option>
+            </select>
+          </div>
+          
+         {/* Etudiant Conserne Field */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">
             Etudiant Conserne:
@@ -137,7 +138,7 @@ const ReclamationForm = () => {
             onChange={(e) => setEtudiantFilter(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          <div className="max-h-40 overflow-y-auto border rounded-lg mt-2 p-3 bg-gray-50">
+          <div className="max-h-40 overflow-y-auto border rounded-lg mt-0 p-3 bg-gray-50">
             {filteredEtudiants.map((etudiant) => (
               <label
                 key={etudiant._id}
