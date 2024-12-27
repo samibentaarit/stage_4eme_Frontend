@@ -12,10 +12,13 @@ const Navbar = () => {
     try {
       await fetch('http://localhost:8080/logout', { method: 'POST', credentials: 'include' });
       navigate('/login');
+      localStorage.clear();
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
+
+  const userId = localStorage.getItem('id');
 
   return (
     <div className="bg-indigo-500 w-64 h-screen p-5 flex flex-col justify-between fixed top-0 left-0 transition duration-300">
@@ -129,22 +132,24 @@ const Navbar = () => {
       </div>
 
       {/* Profile Section */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img
-            src="https://via.placeholder.com/40"
-            alt="Profile"
-            className="rounded-full"
-          />
-          <span className="text-white font-semibold">Admin</span>
+      {userId && (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <img
+              src="https://via.placeholder.com/40"
+              alt="Profile"
+              className="rounded-full"
+            />
+            <span className="text-white font-semibold">Admin</span>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="ml-4 bg-red-500 text-white py-1 px-3 rounded-lg transition duration-300 hover:bg-red-700"
+          >
+            Logout
+          </button>
         </div>
-        <button
-          onClick={handleLogout}
-          className="ml-4 bg-red-500 text-white py-1 px-3 rounded-lg transition duration-300 hover:bg-red-700"
-        >
-          Logout
-        </button>
-      </div>
+      )}
     </div>
   );
 };
