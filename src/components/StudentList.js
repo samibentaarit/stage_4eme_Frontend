@@ -9,7 +9,6 @@ const StudentList = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [grades, setGrades] = useState([]);
-  const [classes, setClasses] = useState([]);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -31,18 +30,10 @@ const StudentList = () => {
       }
     };
 
-    const fetchClasses = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/classes");
-        setClasses(response.data);
-      } catch (err) {
-        console.error("Error fetching classes:", err);
-      }
-    };
+
 
     fetchStudents();
     fetchGrades();
-    fetchClasses();
   }, []);
 
 const openModal = (student) => {
@@ -204,22 +195,6 @@ const openModal = (student) => {
                   {grades.map((grade) => (
                     <option key={grade._id} value={grade._id}>
                       {grade.gradeName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2">Class</label>
-                <select
-                  name="classId"
-                  value={selectedStudent.classId || ""} // Ensure the value is just the ID
-                  onChange={handleDropdownChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <option value="">Select Class</option>
-                  {classes.map((cls) => (
-                    <option key={cls._id} value={cls._id}>
-                      {cls.className}
                     </option>
                   ))}
                 </select>
