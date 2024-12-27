@@ -110,11 +110,9 @@ const AnnanceForm = () => {
   );
 
   return (
-<div className="max-w-6xl mx-auto bg-white  py-5 px-10 rounded-lg shadow-lg">
-
-
+<div className="max-w-6xl mx-auto py-4 px-10 rounded-lg shadow-lg">
   <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">Create Annonce</h2>
-  <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
+  <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-2">
     {/* Sujet Field */}
     <div>
       <label className="block text-gray-700 font-medium mb-2">Sujet:</label>
@@ -137,7 +135,7 @@ const AnnanceForm = () => {
         required
         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         placeholder="Enter detailed information"
-        rows="4"
+        rows="2"
       />
     </div>
 
@@ -153,7 +151,7 @@ const AnnanceForm = () => {
           onChange={(e) => setUserFilter(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        <div className="max-h-40 overflow-y-auto border rounded-lg mt-2 p-3 bg-gray-50">
+        <div className="max-h-40 overflow-y-auto border rounded-lg mt-0 p-3 bg-gray-50">
           {filteredUsers.map((user) => (
             <label
               key={user._id}
@@ -186,7 +184,7 @@ const AnnanceForm = () => {
           onChange={(e) => setRoleFilter(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        <div className="max-h-40 overflow-y-auto border rounded-lg mt-2 p-3 bg-gray-50">
+        <div className="max-h-40 overflow-y-auto border rounded-lg mt-0 p-3 bg-gray-50">
           {filteredRoles.map((role) => (
             <label
               key={role._id}
