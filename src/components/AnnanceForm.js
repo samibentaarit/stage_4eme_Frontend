@@ -108,7 +108,7 @@ const AnnanceForm = () => {
   const filteredRoles = roles.filter((role) =>
     role.name.toLowerCase().includes(roleFilter.toLowerCase())
   );
-
+ 
   return (
 <div className="max-w-6xl mx-auto py-4 px-10 rounded-lg shadow-lg">
   <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">Create Annonce</h2>
