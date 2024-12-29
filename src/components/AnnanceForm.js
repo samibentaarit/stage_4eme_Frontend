@@ -8,8 +8,7 @@ const AnnanceForm = () => {
   const [userAudience, setUserAudience] = useState([]);
   const [roleAudience, setRoleAudience] = useState([]);
   const [users, setUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
-  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [roles, setRoles] = useState([]);  
   const [selectedFile, setSelectedFile] = useState(null);
   const [sendEmail, setSendEmail] = useState(false);
   const [message, setMessage] = useState('');
@@ -31,13 +30,7 @@ const AnnanceForm = () => {
     fetchUsersAndRoles();
   }, []);
 
-  const handleRoleChange = (roleId) => {
-    setSelectedRoles((prevSelectedRoles) =>
-      prevSelectedRoles.includes(roleId)
-        ? prevSelectedRoles.filter((id) => id !== roleId)
-        : [...prevSelectedRoles, roleId]
-    );
-  };
+
 
   const handleUserCheckboxChange = (userId) => {
     setUserAudience((prevSelected) =>
@@ -108,7 +101,7 @@ const AnnanceForm = () => {
   const filteredRoles = roles.filter((role) =>
     role.name.toLowerCase().includes(roleFilter.toLowerCase())
   );
- 
+
   return (
 <div className="max-w-6xl mx-auto py-4 px-10 rounded-lg shadow-lg">
   <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">Create Annonce</h2>

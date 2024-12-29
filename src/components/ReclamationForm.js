@@ -1,30 +1,29 @@
-// src/components/ReclamationForm.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ReclamationForm = () => {
-  const [sujet, setSujet] = useState('');
-  const [information, setInformation] = useState('');
-  const [etat, setEtat] = useState('');
+  const [sujet, setSujet] = useState("");
+  const [information, setInformation] = useState("");
+  const [etat, setEtat] = useState("Simple Fault");
   const [etudiantConserne, setEtudiantConserne] = useState([]);
   const [parentConserne, setParentConserne] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [message, setMessage] = useState('');
+  const [students, setStudents] = useState([]);
+  const [message, setMessage] = useState("");
   const [includeParents, setIncludeParents] = useState(true);
-  const [etudiantFilter, setEtudiantFilter] = useState('');
+  const [etudiantFilter, setEtudiantFilter] = useState("");
 
   useEffect(() => {
-    // Fetch users when the component mounts
-    const fetchUsers = async () => {
+    // Fetch students when the component mounts
+    const fetchStudents = async () => {
       try {
-        const usersResponse = await axios.get('http://localhost:8080/user/users');
-        setUsers(usersResponse.data);
+        const response = await axios.get("http://localhost:8080/user/students");
+        setStudents(response.data); // Populate the students list
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching students:", error);
       }
     };
 
-    fetchUsers();
+    fetchStudents();
   }, []);
 
   const handleEtudiantCheckboxChange = (studentId) => {
@@ -33,16 +32,16 @@ const ReclamationForm = () => {
         ? prevSelected.filter((id) => id !== studentId)
         : [...prevSelected, studentId];
 
-      // Automatically fill parentConserne based on the selected students
+      // Extract parents for the selected students
       const selectedParents = [];
       updatedList.forEach((id) => {
-        const student = users.find((user) => user._id === id);
+        const student = students.find((student) => student._id === id);
         if (student?.parents) {
-          selectedParents.push(...student.parents);
+          selectedParents.push(...student.parents.filter(Boolean)); // Avoid undefined entries
         }
       });
-      setParentConserne([...new Set(selectedParents)]); // Remove duplicate parent IDs
 
+      setParentConserne(selectedParents);
       return updatedList;
     });
   };
@@ -50,7 +49,7 @@ const ReclamationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const redacteurId = localStorage.getItem('id');
+    const redacteurId = localStorage.getItem("id");
 
     const newReclamation = {
       sujet,
@@ -58,12 +57,12 @@ const ReclamationForm = () => {
       etat,
       redacteur: redacteurId,
       etudiantConserne,
-      parentConserne: includeParents ? parentConserne : [],
+      parentConserne: includeParents ? parentConserne.map((parent) => parent._id) : [], // Send parent IDs
     };
 
     try {
-      const endpoint = includeParents 
-        ? 'http://localhost:8080/reclamations' 
+      const endpoint = includeParents
+        ? 'http://localhost:8080/reclamations'
         : 'http://localhost:8080/reclamations/default';
       const response = await axios.post(endpoint, newReclamation);
       setMessage('Reclamation created successfully!');
@@ -74,12 +73,12 @@ const ReclamationForm = () => {
     }
   };
 
-  // Filtered users based on search input
-  const filteredEtudiants = users.filter((user) =>
-    user.username.toLowerCase().includes(etudiantFilter.toLowerCase()) ||
-    user.email.toLowerCase().includes(etudiantFilter.toLowerCase())
+  // Filter students based on search input
+  const filteredStudents = students.filter((student) =>
+    student.username.toLowerCase().includes(etudiantFilter.toLowerCase()) ||
+    student.email.toLowerCase().includes(etudiantFilter.toLowerCase())
   );
-  
+
   return (
     <div className="max-w-6xl mx-auto bg-white py-5 px-10 rounded-lg shadow-lg">
       <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">
@@ -98,35 +97,36 @@ const ReclamationForm = () => {
             placeholder="Enter the subject"
           />
         </div>
-  
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Information:</label>
-            <textarea
-              value={information}
-              onChange={(e) => setInformation(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="Enter detailed information"
-              rows="2"
-            />
-          </div>
-          
-          {/* Etat Field */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Etat:</label>
-            <select
-              value={etat}
-              onChange={(e) => setEtat(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="simple fault">Simple Fault</option>
-              <option value="severe">Severe</option>
-              <option value="intermediate">Intermediate</option>
-            </select>
-          </div>
-          
-         {/* Etudiant Conserne Field */}
+
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">Information:</label>
+          <textarea
+            value={information}
+            onChange={(e) => setInformation(e.target.value)}
+            required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter detailed information"
+            rows="2"
+          />
+        </div>
+
+        {/* Etat Field */}
+        <div>
+          <label htmlFor="etat" className="block text-gray-700 font-medium mb-2">Etat:</label>
+          <select
+            id="etat"
+            value={etat}
+            onChange={(e) => setEtat(e.target.value)}
+            required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="simple fault">Simple Fault</option>
+            <option value="severe">Severe</option>
+            <option value="intermediate">Intermediate</option>
+          </select>
+        </div>
+
+        {/* Etudiant Conserne Field */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">
             Etudiant Conserne:
@@ -139,30 +139,29 @@ const ReclamationForm = () => {
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           <div className="max-h-40 overflow-y-auto border rounded-lg mt-0 p-3 bg-gray-50">
-            {filteredEtudiants.map((etudiant) => (
+            {filteredStudents.map((student) => (
               <label
-                key={etudiant._id}
-                onClick={() => handleEtudiantCheckboxChange(etudiant._id)}
+                key={student._id}
+                onClick={() => handleEtudiantCheckboxChange(student._id)}
                 className={`flex items-center justify-between cursor-pointer p-2 rounded-lg ${
-                  etudiantConserne.includes(etudiant._id) ? 'bg-indigo-100' : ''
+                  etudiantConserne.includes(student._id) ? "bg-indigo-100" : ""
                 }`}
               >
                 <span className="text-gray-600">
-                  {etudiant.username} ({etudiant.email})
+                  {student.username} ({student.email})
                 </span>
                 <input
                   type="checkbox"
-                  checked={etudiantConserne.includes(etudiant._id)}
-                  onChange={() => handleEtudiantCheckboxChange(etudiant._id)}
+                  checked={etudiantConserne.includes(student._id)}
+                  onChange={() => handleEtudiantCheckboxChange(student._id)}
                   className="w-4 h-4 pointer-events-none"
                 />
               </label>
             ))}
           </div>
         </div>
-  
-        {/* Notify Parents */}
-        <div className="space-y-2">
+ {/* Notify Parents */}
+ <div className="space-y-2">
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -173,19 +172,21 @@ const ReclamationForm = () => {
             <label className="text-gray-700 font-medium">
               Notifier les Parents? (Auto-filled)
             </label>
-          </div>
+          </div>      
+              </div>
+
+        {/* Display Parents */}
+        <div className="space-y-2">
+          <h3 className="text-gray-700 font-medium">Selected Parents:</h3>
           <ul className="list-disc list-inside bg-gray-50 p-3 rounded-lg">
-            {parentConserne.map((parentId) => {
-              const parent = users.find((user) => user._id === parentId);
-              return parent ? (
-                <li key={parentId} className="text-gray-600">
-                  {parent.username} ({parent.email})
-                </li>
-              ) : null;
-            })}
+            {parentConserne.map((parent) => (
+              <li key={parent._id} className="text-gray-600">
+                {parent.username} ({parent.email})
+              </li>
+            ))}
           </ul>
         </div>
-  
+
         {/* Submit Button */}
         <button
           type="submit"
@@ -194,7 +195,7 @@ const ReclamationForm = () => {
           Create Reclamation
         </button>
       </form>
-  
+
       {/* Message Display */}
       {message && (
         <div className="mt-6 p-4 text-center text-white bg-green-500 rounded-lg">
@@ -203,10 +204,6 @@ const ReclamationForm = () => {
       )}
     </div>
   );
-  
-
 };
 
-
 export default ReclamationForm;
-	
