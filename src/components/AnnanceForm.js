@@ -51,6 +51,11 @@ const AnnanceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
+    if (userAudience.length === 0 && roleAudience.length === 0) {
+      setMessage('Please select at least one user or role audience before submitting.');
+      return;
+    }
+  
     const redacteurId = localStorage.getItem('id');
     if (!redacteurId) {
       console.error('Redacteur ID not found in session storage');
@@ -58,7 +63,7 @@ const AnnanceForm = () => {
     }
   
     const formData = new FormData();
-    formData.append('etat', 'en cours' ); // Default to 'en cours' if not set by user
+    formData.append('etat', 'en cours'); // Default to 'en cours' if not set by user
     formData.append('sujet', sujet);
     formData.append('information', information);
     formData.append('redacteur', redacteurId);

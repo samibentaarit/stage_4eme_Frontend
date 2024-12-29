@@ -1,11 +1,21 @@
-import React from 'react'; 
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHome,
+  faBullhorn,
+  faFileAlt,
+  faPlusCircle,
+  faUserGraduate,
+  faClipboard,
+  faChalkboardTeacher,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Helper function to check if a route is active
   const isActive = (path) => location.pathname === path;
 
   const handleLogout = async () => {
@@ -34,96 +44,104 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faHome} />
                 Home
               </Link>
             </li>
             <li>
               <Link
                 to="/annonces"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
-                  isActive("/annances")
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
+                  isActive("/annonces")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faBullhorn} />
                 Annonces
               </Link>
             </li>
             <li>
               <Link
                 to="/reclamations"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/reclamations")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faFileAlt} />
                 Reclamations
               </Link>
             </li>
             <li>
               <Link
                 to="/create-annance"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/create-annance")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faPlusCircle} />
                 Create Annonce
               </Link>
             </li>
             <li>
               <Link
                 to="/create-reclamation"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/create-reclamation")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faPlusCircle} />
                 Create Reclamation
               </Link>
             </li>
             <li>
               <Link
                 to="/students"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/students")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faUserGraduate} />
                 Students
               </Link>
             </li>
             <li>
               <Link
                 to="/grades"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/grades")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faClipboard} />
                 Grades
               </Link>
             </li>
             <li>
               <Link
                 to="/classes"
-                className={`block py-2 px-4 rounded-lg transition duration-300 ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/classes")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
+                <FontAwesomeIcon icon={faChalkboardTeacher} />
                 Classes
               </Link>
             </li>
@@ -144,8 +162,9 @@ const Navbar = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="ml-4 bg-red-500 text-white py-1 px-3 rounded-lg transition duration-300 hover:bg-red-700"
+            className="ml-4 bg-red-500 text-white py-1 px-3 rounded-lg transition duration-300 hover:bg-red-700 flex items-center gap-2"
           >
+            <FontAwesomeIcon icon={faSignOutAlt} />
             Logout
           </button>
         </div>
