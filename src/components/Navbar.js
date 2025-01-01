@@ -56,15 +56,15 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/annonces"
+                to="/announcements"
                 className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
-                  isActive("/annonces")
+                  isActive("/announcements")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
                 <FontAwesomeIcon icon={faBullhorn} />
-                Annonces
+                Announcements
               </Link>
             </li>
             <li>
@@ -82,19 +82,19 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/create-annance"
+                to="/create-announcement"
                 className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
-                  isActive("/create-annance")
+                  isActive("/create-announcement")
                     ? "bg-indigo-700 text-white"
                     : "text-white hover:bg-indigo-600"
                 }`}
               >
                 <FontAwesomeIcon icon={faPlusCircle} />
-                Create Annonce
+                Create Announcement
               </Link>
             </li>
             <li>
-              <Link
+              {/* <Link
                 to="/create-reclamation"
                 className={`flex items-center gap-2 py-2 px-4 rounded-lg transition duration-300 ${
                   isActive("/create-reclamation")
@@ -104,7 +104,7 @@ const Navbar = () => {
               >
                 <FontAwesomeIcon icon={faPlusCircle} />
                 Create Reclamation
-              </Link>
+              </Link> */}
             </li>
             <li>
               <Link

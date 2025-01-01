@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ReclamationList = () => {
   const [reclamations, setReclamations] = useState([]);
@@ -42,7 +43,15 @@ const ReclamationList = () => {
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-2xl font-extrabold text-indigo-600 mb-4">All Reclamations</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-extrabold text-indigo-600 mb-4">Reclamations</h1>
+        <Link to="/create-reclamation">
+          <button className="inline-block px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300">
+            Create New Reclamation
+          </button>
+        </Link>
+      </div>
+
       {reclamations.length > 0 ? (
         <>
           <table className="min-w-full bg-white border border-indigo-200 rounded-lg overflow-hidden">

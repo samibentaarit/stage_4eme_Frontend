@@ -88,10 +88,10 @@ const AnnanceForm = () => {
         },
       });
   
-      setMessage('Annonce created successfully!');
+      setMessage('Announcement created successfully!');
       console.log(response.data);
     } catch (error) {
-      setMessage('Error creating annonce.');
+      setMessage('Error creating announcement.');
       console.error(error);
     }
   };
@@ -109,7 +109,7 @@ const AnnanceForm = () => {
 
   return (
 <div className="max-w-6xl mx-auto py-4 px-10 rounded-lg shadow-lg">
-  <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">Create Annonce</h2>
+  <h2 className="text-3xl font-extrabold text-indigo-600 text-center mb-8">Create Announcement</h2>
   <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-3">
     {/* Sujet Field */}
     <div>
@@ -232,7 +232,7 @@ const AnnanceForm = () => {
       type="submit"
       className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300"
     >
-      Create Annonce
+      Create Announcement
     </button>
   </form>
 
