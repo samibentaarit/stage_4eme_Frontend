@@ -41,6 +41,11 @@ apiService.interceptors.response.use(
       }
     }
 
+    // If the server responds with 403, redirect to /login page
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/login';
+    }
+
     return Promise.reject(new Error(error));
   }
 );
