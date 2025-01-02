@@ -161,7 +161,7 @@ const StudentList = () => {
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       {filteredStudents.length > 0 ? (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredStudents.map((student) => (
             <li
               key={student._id}
