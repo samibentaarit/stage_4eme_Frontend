@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import apiService from './apiService'; // Import the configured Axios instance
 
 const AnnanceList = () => {
   const [annances, setAnnances] = useState([]);
@@ -10,12 +11,10 @@ const AnnanceList = () => {
   useEffect(() => {
     const fetchAnnances = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/annances', {
-          withCredentials: true, // Include cookies in requests
-        });
+        const response = await apiService.get('/annances');
         setAnnances(response.data);
       } catch (error) {
-        console.error('Error fetching annances:', error);
+        console.error('Error fetching announcements:', error);
       }
     };
 
@@ -24,12 +23,10 @@ const AnnanceList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/annances/${id}`, {
-        withCredentials: true, // Ensure cookies are sent with the request
-      });
+      await apiService.delete(`/annances/${id}`);
       setAnnances(annances.filter((annance) => annance._id !== id));
     } catch (error) {
-      console.error('Error deleting annance:', error);
+      console.error('Error deleting announcement:', error);
     }
   };
 
