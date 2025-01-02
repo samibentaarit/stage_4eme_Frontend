@@ -13,7 +13,7 @@ apiService.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(new Error(error));
   }
 );
 
@@ -37,11 +37,11 @@ apiService.interceptors.response.use(
         return apiService(originalRequest);
       } catch (refreshError) {
         console.error('Refresh token failed', refreshError);
-        return Promise.reject(refreshError);
+        return Promise.reject(new Error(refreshError));
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(new Error(error));
   }
 );
 
