@@ -154,7 +154,7 @@ const AssignStudentsToGrade = () => {
 
         {/* Selected Students */}
         <div>
-          <h2 className="text-xl font-semibold mb-3">Preselected Students</h2>
+          <h2 className="text-xl font-semibold mb-3">Assigned to this grade </h2>
           {selectedStudents.length > 0 ? (
             selectedStudents.map((studentId) => {
               const student = students.find((s) => s._id === studentId);
@@ -174,7 +174,7 @@ const AssignStudentsToGrade = () => {
               );
             })
           ) : (
-            <p className="text-gray-500">No preselected students.</p>
+            <p className="text-gray-500">No Assigned students to this grade.</p>
           )}
         </div>
       </div>
