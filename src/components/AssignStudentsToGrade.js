@@ -5,46 +5,41 @@ import { useParams, useNavigate } from "react-router-dom";
 const AssignStudentsToGrade = () => {
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
-  const [filteredStudents, setFilteredStudents] = useState([]); // To hold filtered students
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [grade, setGrade] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // To manage the search input
-  const [unassignedStudents, setUnassignedStudents] = useState([]); // Students without grades
-  const [assignedStudents, setAssignedStudents] = useState([]); // Students with grades
+  const [searchTerm, setSearchTerm] = useState(""); // Search term state
+  const [unassignedStudents, setUnassignedStudents] = useState([]);
+  const [assignedStudents, setAssignedStudents] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGradeAndStudents = async () => {
       try {
-        // Fetch grade details
         const gradeResponse = await axios.get(`http://localhost:8080/grades/${gradeId}`);
         setGrade(gradeResponse.data);
 
-        // Fetch all students
         const studentsResponse = await axios.get("http://localhost:8080/user/students");
         const allStudents = studentsResponse.data;
-        
-        // Fetch already assigned students
+
         const assignedResponse = await axios.get(`http://localhost:8080/grades/${gradeId}/students`);
         const assignedToGrade = assignedResponse.data.map((student) => student._id);
 
-        // Separate students into categories
         const unassigned = [];
         const assigned = [];
         allStudents.forEach((student) => {
           if (!student.grade?.gradeName) {
-            unassigned.push(student); // No grade assigned
+            unassigned.push(student);
           } else if (student.grade.gradeId !== gradeId) {
-            assigned.push(student); // Assigned to another grade
+            assigned.push(student);
           }
         });
 
-        // Update state
         setStudents(allStudents);
-        setFilteredStudents(allStudents); // Initialize filtered list
-        setSelectedStudents(assignedToGrade); // Pre-select students
         setUnassignedStudents(unassigned);
         setAssignedStudents(assigned);
+        setSelectedStudents(assignedToGrade);
+        setFilteredStudents(allStudents); // Initialize filtered list
       } catch (error) {
         console.error("Error fetching data:", error);
         alert("Failed to load data. Please try again.");
@@ -57,8 +52,8 @@ const AssignStudentsToGrade = () => {
   const handleCheckboxChange = (studentId) => {
     setSelectedStudents((prev) =>
       prev.includes(studentId)
-        ? prev.filter((id) => id !== studentId) // Remove student if already selected
-        : [...prev, studentId] // Add student if not selected
+        ? prev.filter((id) => id !== studentId)
+        : [...prev, studentId]
     );
   };
 
@@ -69,9 +64,8 @@ const AssignStudentsToGrade = () => {
         { gradeId, studentIds: selectedStudents },
         { withCredentials: true }
       );
-
       alert("Students successfully assigned to the grade.");
-      navigate("/grades"); // Navigate back to the grade list
+      navigate("/grades");
     } catch (error) {
       console.error("Error assigning students:", error);
       alert("Failed to assign students. Please try again.");
@@ -79,16 +73,15 @@ const AssignStudentsToGrade = () => {
   };
 
   const handleSearch = (event) => {
-    const term = event.target.value.toLowerCase();
-    setSearchTerm(term);
-    setFilteredStudents(
-      students.filter(
-        (student) =>
-          (student?.username?.toLowerCase() || "").includes(term) ||
-          (student?.email?.toLowerCase() || "").includes(term)
-      )
-    );
+    setSearchTerm(event.target.value.toLowerCase());
   };
+
+  const filterList = (list) =>
+    list.filter(
+      (student) =>
+        (student?.username?.toLowerCase() || "").includes(searchTerm) ||
+        (student?.email?.toLowerCase() || "").includes(searchTerm)
+    );
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md mx-auto mt-8">
@@ -106,11 +99,10 @@ const AssignStudentsToGrade = () => {
       />
 
       <div className="grid grid-cols-3 gap-6">
-        {/* Unassigned Students */}
         <div>
           <h2 className="text-xl font-semibold mb-3">Unassigned Students</h2>
-          {unassignedStudents.length > 0 ? (
-            unassignedStudents.map((student) => (
+          {filterList(unassignedStudents).length > 0 ? (
+            filterList(unassignedStudents).map((student) => (
               <div key={student._id} className="flex items-center mb-2">
                 <input
                   type="checkbox"
@@ -129,11 +121,10 @@ const AssignStudentsToGrade = () => {
           )}
         </div>
 
-        {/* Assigned Students */}
         <div>
           <h2 className="text-xl font-semibold mb-3">Assigned to Other Grades</h2>
-          {assignedStudents.length > 0 ? (
-            assignedStudents.map((student) => (
+          {filterList(assignedStudents).length > 0 ? (
+            filterList(assignedStudents).map((student) => (
               <div key={student._id} className="flex items-center mb-2">
                 <input
                   type="checkbox"
@@ -152,34 +143,37 @@ const AssignStudentsToGrade = () => {
           )}
         </div>
 
-        {/* Selected Students */}
         <div>
           <h2 className="text-xl font-semibold mb-3">Assigned to this grade </h2>
-          {selectedStudents.length > 0 ? (
-            selectedStudents.map((studentId) => {
-              const student = students.find((s) => s._id === studentId);
-              return (
-                <div key={studentId} className="flex items-center mb-2">
-                  <input
-                    type="checkbox"
-                    id={studentId}
-                    checked={true}
-                    onChange={() => handleCheckboxChange(studentId)}
-                    className="mr-2 w-5 h-5 text-indigo-600 border-gray-300 rounded"
-                  />
-                  <label htmlFor={studentId} className="text-gray-700">
-                    {student?.username} ({student?.email})
-                  </label>
-                </div>
-              );
-            })
+          {filterList(
+            students.filter((student) =>
+              selectedStudents.includes(student._id)
+            )
+          ).length > 0 ? (
+            filterList(
+              students.filter((student) =>
+                selectedStudents.includes(student._id)
+              )
+            ).map((student) => (
+              <div key={student._id} className="flex items-center mb-2">
+                <input
+                  type="checkbox"
+                  id={student._id}
+                  checked={true}
+                  onChange={() => handleCheckboxChange(student._id)}
+                  className="mr-2 w-5 h-5 text-indigo-600 border-gray-300 rounded"
+                />
+                <label htmlFor={student._id} className="text-gray-700">
+                  {student?.username} ({student?.email})
+                </label>
+              </div>
+            ))
           ) : (
-            <p className="text-gray-500">No Assigned students to this grade.</p>
+            <p className="text-gray-500">No assigned students to this grade.</p>
           )}
         </div>
       </div>
 
-      {/* Buttons */}
       <div className="mt-6 flex justify-end">
         <button
           onClick={handleAssignStudents}
