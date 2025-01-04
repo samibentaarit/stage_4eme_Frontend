@@ -23,11 +23,10 @@ function SignUp() {
 
       if (response.status === 200) {
         console.log('User signed up successfully:', response.data);
-        // Optionally, redirect or update UI after successful sign-up
+        window.location.href = '/login';
       }
     } catch (error) {
       console.error('Sign-up error:', error);
-      // Handle error cases, like user already exists or validation errors
     }
   };
 
