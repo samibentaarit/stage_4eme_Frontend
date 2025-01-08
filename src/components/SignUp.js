@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 
 function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSignUp = async (e) => {
@@ -61,18 +67,26 @@ function SignUp() {
               className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
             />
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
-              type="password"            
+              type={showPassword ? 'text' : 'password'}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
             />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-11 right-4 flex items-center text-gray-500 hover:text-gray-700"
+              aria-label="Toggle password visibility"
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
           </div>
           <div>
             <label htmlFor="role" className="block text-sm font-medium text-gray-700">
@@ -85,7 +99,9 @@ function SignUp() {
               required
               className="mt-1 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400"
             >
-              <option value="" disabled>Select your role</option>
+              <option value="" disabled>
+                Select your role
+              </option>
               <option value="moderator">Moderator</option>
               <option value="parent">Parent</option>
               <option value="student">Student</option>
