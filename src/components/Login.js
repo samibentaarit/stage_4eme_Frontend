@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,7 +13,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/auth/api/auth/signin',
+        'http://localhost:8080/auth/signin',
         { username, password },
         { withCredentials: true }
       );
@@ -29,7 +30,8 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      setError('Login failed. Please check your credentials.');
+      const message = error.response?.data?.message || 'Login failed. Please check your credentials.';
+      setError(message);
     }
   };
 
@@ -74,7 +76,7 @@ const Login = () => {
               className="absolute inset-y-11 right-3 flex items-center text-gray-500 hover:text-gray-700"
               aria-label="Toggle password visibility"
             >
-              {showPassword ? '👁️' : '🙈'}
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </div>
           <button
@@ -93,7 +95,7 @@ const Login = () => {
           </p>
           <button
             className="mt-4 text-sm text-blue-600 hover:underline"
-            onClick={() => (window.location.href = '/reset-password')}
+            onClick={() => (window.location.href = '/password-reset')}
           >
             Forgot Password?
           </button>

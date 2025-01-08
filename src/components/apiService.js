@@ -31,7 +31,7 @@ apiService.interceptors.response.use(
 
       try {
         // Attempt to refresh the access token
-        await apiService.post('/auth/api/auth/refreshtoken');
+        await apiService.post('/auth/refreshtoken');
 
         // Retry the original request with the new token
         return apiService(originalRequest);

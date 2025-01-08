@@ -19,6 +19,8 @@ import AssignStudentsToGrade from './components/AssignStudentsToGrade';
 import AssignStudentsToGradeCopy from './components/AssignStudentsToGrade copy';
 import MainLayout from './components/layouts/MainLayout'; 
 import AuthLayout from './components/layouts/AuthLayout'; 
+import ResetPassword from './components/ResetPassword';
+import RequestPasswordReset from './components/RequestPasswordReset';
 
 function App() {
   const isLoggedIn = document.cookie.includes('accessToken') != null;
@@ -26,6 +28,8 @@ function App() {
   return (
     <Router>
       <Routes>
+       <Route path="/password-reset" element={<AuthLayout><RequestPasswordReset /> </AuthLayout>} />
+        <Route path="/password-reset/:token" element={<AuthLayout><ResetPassword /> </AuthLayout>} />
         <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
         <Route path="/signup" element={<AuthLayout><SignUp /></AuthLayout>} />
         <Route path="/" element={<MainLayout><ProtectedRoute isLoggedIn={isLoggedIn}><HomePage /></ProtectedRoute></MainLayout>} />

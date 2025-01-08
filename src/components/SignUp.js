@@ -14,7 +14,7 @@ function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/auth/api/auth/signup', {
+      const response = await axios.post('http://localhost:8080/auth/signup', {
         username,
         email,
         password,
