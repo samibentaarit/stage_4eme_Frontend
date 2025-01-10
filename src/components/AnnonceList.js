@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-import apiService from '../middleware/apiService'; // Import the configured Axios instance
+import apiService from '../middleware/apiService'; 
 
 const AnnanceList = () => {
   const [annances, setAnnances] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Number of items per page
+  const itemsPerPage = 10; 
 
   useEffect(() => {
     const fetchAnnances = async () => {

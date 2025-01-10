@@ -5,7 +5,7 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import ReclamationList from './components/ReclamationList';
-import AnnanceList from './components/AnnanceList';
+import AnnanceList from './components/AnnonceList';
 import AnnanceForm from './components/AnnanceForm';
 import ReclamationForm from './components/ReclamationForm';
 import ClassList from './components/ClassList';
