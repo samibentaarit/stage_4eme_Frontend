@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import apiService from './apiService'; // Import the configured Axios instance
+import apiService from '../middleware/apiService'; // Import the configured Axios instance
 
 const AnnanceList = () => {
   const [annances, setAnnances] = useState([]);

@@ -5,10 +5,9 @@ import { useParams, useNavigate } from "react-router-dom";
 const AssignStudentsToGrade = () => {
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
-  const [filteredStudents, setFilteredStudents] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [grade, setGrade] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Search term state
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [unassignedStudents, setUnassignedStudents] = useState([]);
   const [assignedStudents, setAssignedStudents] = useState([]);
   const navigate = useNavigate();
@@ -39,7 +38,6 @@ const AssignStudentsToGrade = () => {
         setUnassignedStudents(unassigned);
         setAssignedStudents(assigned);
         setSelectedStudents(assignedToGrade);
-        setFilteredStudents(allStudents); // Initialize filtered list
       } catch (error) {
         console.error("Error fetching data:", error);
         alert("Failed to load data. Please try again.");

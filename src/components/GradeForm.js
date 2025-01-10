@@ -26,7 +26,7 @@ const GradeForm = () => {
         e.preventDefault();
 
         const gradeData = {
-            gradeName // Make sure this matches the expected key in the backend
+            gradeName 
         };
 
         try {

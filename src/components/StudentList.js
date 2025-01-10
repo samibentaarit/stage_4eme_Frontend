@@ -77,18 +77,22 @@ const StudentList = () => {
 
   const handleModalSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.patch(`http://localhost:8080/user/users/${selectedStudent._id}`, selectedStudent);
-      alert("Student updated successfully!");
-      setStudents((prev) => prev.map((s) => (s._id === selectedStudent._id ? selectedStudent : s)));
-      closeModal();
-    } catch (error) {
-      console.error("Error updating student:", error);
+    if (selectedStudent) {
+      try {
+        await axios.patch(`http://localhost:8080/user/users/${selectedStudent._id}`, selectedStudent);
+        alert("Student updated successfully!");
+        setStudents((prev) => prev.map((s) => (s._id === selectedStudent._id ? selectedStudent : s)));
+        closeModal();
+      } catch (error) {
+        console.error("Error updating student:", error);
+      }
+    } else {
+      console.error("Selected student is null or undefined.");
     }
   };
 
   const handleAssignParent = async () => {
-    if (!assignParentId) return;
+    if (!assignParentId || !selectedStudent) return;
     try {
       await axios.patch(`http://localhost:8080/user/assign-parents`, {
         childId: selectedStudent._id,
@@ -197,25 +201,24 @@ const StudentList = () => {
                     </button>
                   </p>
                   <ul className="ml-4 list-disc text-gray-600">
-                    {student.parents &&
-                      student.parents.map((parent) => (
-                        <li key={parent._id}>
-                          <span className="text-gray-800 font-medium">
-                            {parent.username}
-                          </span>{" "}
-                          - {parent.email}{" "}
-                          <button
-                            onClick={() => {
-                              console.log("Removing Parent ID:", parent._id);
-                              handleRemoveParent(parent._id, student._id);
-                            }}
-                            className="ml-2 text-red-600 hover:text-red-800 transition duration-300"
-                            aria-label="Remove Parent"
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </li>
-                      ))}
+                    {student.parents?.map((parent) => (
+                      <li key={parent._id}>
+                        <span className="text-gray-800 font-medium">
+                          {parent.username}
+                        </span>{" "}
+                        - {parent.email}{" "}
+                        <button
+                          onClick={() => {
+                            console.log("Removing Parent ID:", parent._id);
+                            handleRemoveParent(parent._id, student._id);
+                          }}
+                          className="ml-2 text-red-600 hover:text-red-800 transition duration-300"
+                          aria-label="Remove Parent"
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
