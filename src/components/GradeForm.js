@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const GradeForm = () => {
     const [gradeName, setGradeName] = useState('');
     const navigate = useNavigate();
-    const { id } = useParams();  // For editing
+    const { id } = useParams(); 
 
     useEffect(() => {
         if (id) {
