@@ -58,7 +58,7 @@ const AnnanceForm = () => {
   
     const redacteurId = localStorage.getItem('id');
     if (!redacteurId) {
-      console.error('Redacteur ID not found in session storage');
+      console.error('Redacteur ID not found in local storage');
       return;
     }
   

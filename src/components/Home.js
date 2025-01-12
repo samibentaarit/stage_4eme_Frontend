@@ -1,16 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const handleLogout = () => {
-  // Remove the authentication token from localStorage (or sessionStorage)
-  sessionStorage.removeItem('accessToken');
-  localStorage.removeItem('userData'); // If you store user data
-
-  // Redirect the user to the login page
-  window.location.href = '/login';
-};
+import { Link, useNavigate } from 'react-router-dom';
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    
+    try {
+      await fetch('http://localhost:8080/logout', { method: 'POST', credentials: 'include' });
+      localStorage.clear();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center  py-5 px-10">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-3xl text-center">

@@ -5,7 +5,6 @@ import {
   faHome,
   faBullhorn,
   faFileAlt,
-  faPlusCircle,
   faUserGraduate,
   faClipboard,
   faChalkboardTeacher,
@@ -21,8 +20,8 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await fetch('http://localhost:8080/logout', { method: 'POST', credentials: 'include' });
-      navigate('/login');
       localStorage.clear();
+      navigate('/login');
     } catch (error) {
       console.error('Logout failed:', error);
     }
